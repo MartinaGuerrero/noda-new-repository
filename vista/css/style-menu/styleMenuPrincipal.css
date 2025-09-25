@@ -1,0 +1,801 @@
+body{
+    margin: 0%;
+    padding: 0%;
+    background-color:#A2DBFF;
+    overflow: hidden;
+    font-family: 'Lexend', sans-serif;
+    }
+    
+    #blanco1{
+        width: 690px;
+        height: 550px;
+        background-color: aliceblue;
+        position: absolute;
+        top: 100px;
+        left: 150px;
+        clip-path: polygon(0% 0%, 98% 0%, 70% 100%, 0% 100%);
+    }
+    
+    #blanco2{
+        width: 670px;
+        height: 550px;
+        background-color: aliceblue;
+        position: absolute;
+        top: 100px;
+        left: 700px;
+        clip-path: polygon(28% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+    
+    #primaria{
+        width: 97%;
+        height: 97%;
+        background-color: aliceblue;
+        position: absolute;
+        left:9px;
+        top: 8px;
+        clip-path: polygon(0% 0%, 98% 0%, 70% 100%, 0% 100%);
+        background-color:  #4DACFF;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    #primaria:hover{
+        transform: scale(1.035);
+    }
+    
+    #secundaria{
+        width: 97%;
+        height: 97%;
+        position: absolute;
+        left: 11px;
+        top: 8px;
+        background-color: #3392FF;
+        transition: all 0.3s ease;
+        clip-path: polygon(28% 0%, 100% 0%, 100% 100%, 0% 100%);
+        cursor: pointer;
+    }
+
+    #secundaria:hover{
+        transform: scale(1.035);
+    }
+
+    #primaria h1{
+        font-size: 30px;
+        color: white;
+        position: absolute;
+        left: 200px;
+        top: 300px;
+        user-select: none;
+        font-family: 'Lexend', sans-serif;
+    }
+
+    #secundaria h1{
+        font-size: 30px;
+        color: white;
+        position: absolute;
+        left: 300px;
+        top: 300px;
+        user-select: none;
+        font-family: 'Lexend', sans-serif;
+    }
+
+    #primaria img{
+        width: 400px;
+        height: 200px;
+        position: absolute;
+        left: 100px;
+        top: 100px;
+        user-select: none;
+    }
+
+    #secundaria img{
+        width: 300px;
+        height: 200px;
+        position: absolute;
+        left: 225px;
+        top: 100px;
+    user-select: none;
+    }
+
+    .alert{
+        position: absolute;
+        background-color: #9CD1F2;
+        padding: 20px 40px;
+        min-width: 420px;
+        right: 0;
+        top: 10px;
+        overflow: hidden;
+        border-radius: 4px;
+        border-left: 8px solid #3392FF;
+    }
+    .alert.showAlert{
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .alert.show{
+        animation: show_slide 1s ease forwards;
+    }
+    @keyframes show_slide {
+        0%{
+            transform: translateX(100%);
+        }
+        40%{
+            transform: translateX(-10%);
+        }
+        80%{
+            transform: translateX(0%);
+        }
+        100%{
+            transform: translateX(-10%);
+        }
+    }
+    .alert.hide{
+        animation: hide_slide 1s ease forwards;
+    }
+    @keyframes hide_slide {
+        0%{
+            transform: translateX(-10%);
+        }
+        40%{
+            transform: translateX(0%);
+        }
+        80%{
+            transform: translateX(-10%);
+        }
+        100%{
+            transform: translateX(100%);
+        }
+    }
+    .alert .fa-exclamation-circule .fa-check{
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #3392FF;
+        font-size: 30px;
+    }
+    
+    .alert .msg{
+        padding: 0 20px;
+        font-size: 18px;
+        color: white;
+        font-family: "lexend";
+    }
+    
+    .alert .close-btn{
+        position: absolute;
+        right: 0px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #55A4FF;
+        padding: 20px 18px;
+        cursor: pointer;
+    }
+    
+    .close-btn:hover{
+        background: #3392FF;
+    }
+    
+    .close-btn .fa-times{
+        color: white;
+        font-size: 22px;
+        line-height: 40px;
+    }
+    .logo1{
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        bottom: -30px;
+        left: 0;
+        border-top-right-radius: 100%;
+        background-color: #3392FF;
+    }
+    .logo2{
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        bottom: -30px;
+        right: 0;
+        border-top-left-radius: 100%;
+        background-color: #3392FF;
+    }
+
+    .impulso{
+        position: absolute;
+        width: 60px;
+        height: 75px;
+        right: 15px;
+        bottom: 45px;
+    }
+    .novosis{
+        position: absolute;
+        width: 140px;
+        height: 140px;
+        bottom: 5px;
+        left: -30px;
+    }
+
+    .logos h1{
+        font-size: 80px;
+        color: #ffffff;
+        position: absolute;
+        right: 48px;
+        top: -20px;
+        
+    }
+
+
+    /* Media Queries */
+
+@media (min-width: 375px) and (max-width: 667px) {
+
+    .alert {
+        padding: 16px 16px;
+        min-width: 297px;
+    }
+
+    .alert .msg {
+        font-size: 13px;
+    }
+
+
+    #primaria, #secundaria { 
+        clip-path: initial; 
+        width: 96%;
+        height: 95%;
+        left: 6px;
+        top: 5.3px;
+    }
+
+    #blanco1{
+        width: 335px;
+        height: 200px;
+        left: 20px;
+        top: 85px;
+        clip-path: initial;
+    }
+    #blanco2{
+        width: 335px;
+        height: 200px;
+        left: 20px;
+        top: 315px;
+        clip-path: initial;
+    }
+
+    #primaria img {
+        width: 200px;
+        height: 100px;
+        left: 65px;
+        top: 35px;
+    }
+    #primaria h1 {
+        left: 100px;
+        top: 120px;
+     
+    }
+    #secundaria img {
+        width: 150px;
+        height: 100px;
+        left: 85px;
+        top: 35px;
+    }
+    #secundaria h1 {
+        left: 75px;
+        top: 120px;
+    }
+}
+
+@media (min-width: 344px) and (max-width: 767px) {
+    /* Vacío */
+}
+
+@media (min-width: 390px) and (max-width: 844px) {
+    #primaria, #secundaria { 
+        clip-path: initial; 
+        width: 97%;
+        height: 97%;
+        left: 6px;
+        top: 5.3px;
+    }
+
+    #blanco1{
+        width: 350px;
+        height: 300px;
+        left: 20px;
+        top: 85px;
+        clip-path: initial;
+    }
+    #blanco2{
+        width: 350px;
+        height: 300px;
+        left: 20px;
+        top: 410px;
+        clip-path: initial;
+    }
+
+    #primaria img {
+        width: 200px;
+        height: 100px;
+        left: 70px;
+        top: 75px;
+    }
+    #primaria h1 {
+        left: 105px;
+        top: 165px;
+     
+    }
+    #secundaria img {
+        width: 150px;
+        height: 100px;
+        left: 90px;
+        top: 75px;
+    }
+    #secundaria h1 {
+        left: 80px;
+        top: 165px;
+    }
+}
+
+@media (min-width: 540px) and (max-width: 720px) {
+    body #primaria, body #secundaria {  
+        width: 98%;
+        height: 97%;
+        left: 5.5px;
+        top: 3.5px;
+    }
+
+    body #blanco1{
+        width: 515px;
+        height: 210px;
+        left: 12px;
+    }
+    body #blanco2{
+        width: 515px;
+        height: 210px;
+        left: 12px;
+        top: 340px;
+    }
+
+    body #primaria img {
+        width: 200px;
+        height: 100px;
+        left: 40px;
+        top: 50px;
+    }
+    body #primaria h1 {
+        left: 295px;
+        top: 75px;
+     
+    }
+    body #secundaria img {
+        width: 150px;
+        height: 100px;
+        left: 65px;
+        top: 55px;
+    }
+    body #secundaria h1 {
+        left: 275px;
+        top: 75px;
+    }
+}
+
+@media (min-width: 412px) and (max-width: 914px) {
+    #primaria, #secundaria { 
+        clip-path: initial; 
+        width: 97%;
+        height: 97%;
+        left: 6px;
+        top: 5px;
+    }
+
+    #blanco1{
+        width: 390px;
+        height: 320px;
+        left: 12px;
+        clip-path: initial;
+    }
+    #blanco2{
+        width: 390px;
+        height: 320px;
+        left: 12px;
+        top: 440px;
+        clip-path: initial;
+    }
+
+    #primaria img {
+        width: 200px;
+        height: 100px;
+        left: 85px;
+        top: 75px;
+    }
+    #primaria h1 {
+        left: 120px;
+        top: 165px;
+     
+    }
+    #secundaria img {
+        width: 150px;
+        height: 100px;
+        left: 110px;
+        top: 75px;
+    }
+    #secundaria h1 {
+        left: 100px;
+        top: 165px;
+    }
+}
+
+@media (min-width: 430px) and (max-width: 932px) {
+    #primaria, #secundaria { 
+        clip-path: initial; 
+        width: 97%;
+        height: 97%;
+        left: 6px;
+        top: 5px;
+    }
+
+    #blanco1{
+        width: 390px;
+        height: 320px;
+        left: 20px;
+        clip-path: initial;
+    }
+    #blanco2{
+        width: 390px;
+        height: 320px;
+        left: 20px;
+        top: 440px;
+        clip-path: initial;
+    }
+
+    #primaria img {
+        width: 200px;
+        height: 100px;
+        left: 85px;
+        top: 75px;
+    }
+    #primaria h1 {
+        left: 120px;
+        top: 165px;
+     
+    }
+    #secundaria img {
+        width: 150px;
+        height: 100px;
+        left: 110px;
+        top: 75px;
+    }
+    #secundaria h1 {
+        left: 100px;
+        top: 165px;
+    }
+}
+
+
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    body #primaria, body #secundaria {  
+        width: 98%;
+        height: 97%;
+        left: 7px;
+    }
+    body #primaria {
+        clip-path: polygon(0% 0%, 184% -2%, -60% 103%, -12% 100%);
+        top: 10px;
+    }
+    body #secundaria {
+        clip-path: polygon(100% 21%, 100% 0%, 100% 100%, -84% 101%);
+        top: 10px;
+    }
+
+    body #blanco1{
+        width: 700px;
+        height: 585px;
+        left: 35px;
+        top: 105px;
+        clip-path: polygon(0% 0%, 186% -1%, -52% 101%, 0% 100%);
+    }
+    body #blanco2{
+        width: 700px;
+        height: 585px;
+        left: 35px;
+        top: 275px;
+        clip-path: polygon(100% 20%, 100% 0%, 100% 100%, -85% 100%);
+    }
+
+    body #primaria img {
+        width: 300px;
+        height: 150px;
+        left: 65px;
+        top: 70px;
+    }
+    body #primaria h1 {
+        left: 405px;
+        top: 115px;
+        font-size: 40px;
+    }
+    body #secundaria img {
+        width: 250px;
+        height: 200px;
+        left: 375px;
+        top: 305px;
+    }
+    body #secundaria h1 {
+        left: 105px;
+        top: 370px;
+        font-size: 40px;
+    }
+}
+
+@media (min-width: 820px) and (max-width: 1180px) {
+    body #primaria, body #secundaria {  
+        width: 98%;
+        height: 97%;
+        left: 7px;
+    }
+    body #primaria {
+        clip-path: polygon(0% 0%, 184% -2%, -60% 103%, -12% 100%);
+        top: 12px;
+    }
+    body #secundaria {
+        clip-path: polygon(100% 21%, 100% 0%, 100% 100%, -84% 101%);
+        top: 10px;
+    }
+
+    body #blanco1{
+        width: 750px;
+        height: 680px;
+        left: 35px;
+        top: 135px;
+        clip-path: polygon(0% 0%, 186% -1%, -52% 101%, 0% 100%);
+    }
+    body #blanco2{
+        width: 750px;
+        height: 680px;
+        left: 35px;
+        top: 325px;
+        clip-path: polygon(100% 20%, 100% 0%, 100% 100%, -85% 100%);
+    }
+
+    body #primaria img {
+        width: 300px;
+        height: 150px;
+        left: 85px;
+        top: 90px;
+    }
+    body #primaria h1 {
+        left: 435px;
+        top: 135px;
+        font-size: 40px;
+     
+    }
+    body #secundaria img {
+        width: 250px;
+        height: 200px;
+        left: 405px;
+        top: 370px;
+    }
+    body #secundaria h1 {
+        left: 125px;
+        top: 430px;
+        font-size: 40px;
+    }
+}
+
+@media screen and (min-width: 853px) and (max-width: 1023px) {
+    body #primaria, body #secundaria {  
+        width: 98%;
+        height: 97%;
+        left: 8px;
+    }
+    body #primaria {
+        clip-path: polygon(0% 0%, 184% -2%, -10% 103%, -12% 100%);
+        top: 12px;
+    }
+    body #primaria:hover{
+        transform: scale(1.035);
+    }
+    body #secundaria {
+        clip-path: polygon(100% 1%, 100% 0%, 100% 100%, -84% 101%);
+        top: 10px;
+    }
+
+    body #blanco1{
+        width: 775px;
+        height: 650px;
+        left: 35px;
+        top: 105px;
+        clip-path: polygon(0% 0%, 185% 0%, -2% 100%, 0% 100%);
+    }
+    body #blanco2{
+        width: 775px;
+        height: 650px;
+        left: 35px;
+        top: 465px;
+        clip-path: polygon(100% 0%, 100% 0%, 100% 100%, -85% 100%);
+    }
+
+    body #primaria img {
+        width: 300px;
+        height: 150px;
+        left: 85px;
+        top: 145px;
+    }
+    body #primaria h1 {
+        left: 435px;
+        top: 175px;
+        font-size: 40px;
+     
+    }
+    body #secundaria img {
+        width: 250px;
+        height: 200px;
+        left: 430px;
+        top: 315px;
+    }
+    body #secundaria h1 {
+        left: 155px;
+        top: 380px;
+        font-size: 40px;
+    }
+}
+
+@media (min-width: 912px) and (max-width: 1366px) {
+    body #primaria, body #secundaria {  
+        width: 98%;
+        height: 97%;
+        left: 8px;
+    }
+    body #primaria {
+        clip-path: polygon(0% 0%, 184% -2%, -10% 103%, -12% 100%);
+        top: 12px;
+    }
+    body #secundaria {
+        clip-path: polygon(100% 1%, 100% 0%, 100% 100%, -84% 101%);
+        top: 10px;
+    }
+
+    body #blanco1{
+        width: 845px;
+        height: 685px;
+        left: 35px;
+        top: 105px;
+        clip-path: polygon(0% 0%, 185% 0%, -2% 100%, 0% 100%);
+    }
+    body #blanco2{
+        width: 845px;
+        height: 685px;
+        left: 35px;
+        top: 500px;
+        clip-path: polygon(100% 0%, 100% 0%, 100% 100%, -85% 100%);
+    }
+
+    body #primaria img {
+        width: 300px;
+        height: 150px;
+        left: 85px;
+        top: 145px;
+    }
+    body #primaria h1 {
+        left: 435px;
+        top: 175px;
+        font-size: 40px;
+     
+    }
+    body #secundaria img {
+        width: 250px;
+        height: 200px;
+        left: 480px;
+        top: 315px;
+    }
+    body #secundaria h1 {
+        left: 200px;
+        top: 380px;
+        font-size: 40px;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1368px) {
+    body #primaria, body #secundaria {  
+        width: 98%;
+        height: 97%;
+        left: 9px;
+    }
+    body #primaria {
+        clip-path: polygon(0% 0%, 184% -2%, -10% 103%, -12% 100%);
+        top: 12px;
+    }
+    body #primaria:hover{
+        transform: scale(1.035);
+    }
+    body #secundaria {
+        clip-path: polygon(100% 1%, 100% 0%, 100% 100%, -83% 101%);
+        top: 10px;
+    }
+
+    body #blanco1{
+        width: 955px;
+        height: 685px;
+        left: 35px;
+        top: 105px;
+        clip-path: polygon(0% 0%, 185% 0%, -2% 100%, 0% 100%);
+    }
+    body #blanco2{
+        width: 955px;
+        height: 685px;
+        left: 35px;
+        top: 500px;
+        clip-path: polygon(100% 0%, 100% 0%, 100% 100%, -85% 100%);
+    }
+
+    body #primaria img {
+        width: 300px;
+        height: 150px;
+        left: 85px;
+        top: 145px;
+    }
+    body #primaria h1 {
+        left: 435px;
+        top: 175px;
+        font-size: 40px;
+    }
+    body #secundaria img {
+        width: 250px;
+        height: 200px;
+        left: 600px;
+        top: 315px;
+    }
+    body #secundaria h1 {
+        left: 315px;
+        top: 380px;
+        font-size: 40px;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 1024px) {
+    #secundaria { 
+        clip-path: polygon(29% 0%, 100% 0%, 100% 100%, 1% 100%) ;
+        left: 7px;
+        top: 6px;
+    }
+    #primaria { 
+        clip-path: polygon(0% 0%, 99% 0%, 71% 100%, 0% 100%);
+        left: 7px;
+        top: 6px;
+    }
+    #blanco1{
+        width: 490px;
+        height: 370px;
+        left: 60px;
+        top: 100px;
+        clip-path: polygon(0% 0%, 100% 0%, 72% 100%, 0% 100%);
+    }
+    #blanco2{
+        width: 490px;
+        height: 370px;
+        left: 470px;
+        top: 100px;
+        clip-path: polygon(28% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+
+    #primaria img {
+        width: 200px;
+        height: 100px;
+        top: 100px;
+    }
+    #primaria h1 {
+        left: 125px;
+        top: 185px;
+    }
+    #secundaria img {
+        width: 150px;
+        height: 100px;
+        left: 200px;
+        top: 100px;
+    }
+    #secundaria h1 {
+        left: 190px;
+        top: 185px;
+    }
+}

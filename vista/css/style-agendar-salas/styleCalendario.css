@@ -1,0 +1,936 @@
+/*syle de todo*/
+.todo {
+    width: 800px;
+    height: 550px;
+    border-radius: 25px;
+    background-color: #50B9FA;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+
+/*style de container*/
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/*syle de formulario*/
+.img {
+    margin-top: 30px;
+    margin-left: 40px;
+    background-color: #fff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img .salon {
+    width: 350px;
+    height: 160px;
+    border-radius: 20px;
+    background-size: cover;
+    border: 10px solid #ffffff;
+}
+
+label {
+    display: block;
+    font-family: 'Lexend', sans-serif;
+    color: #011128;
+    margin-left: 50px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/*#fechaYHoraI {
+    margin-top: 5px;
+    margin-left: 50px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    height: 30px;
+}*/
+#fecha {
+    margin-top: 5px;
+    margin-left: 50px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    height: 30px;
+}
+
+#horaI {
+    border-radius: 15px;
+}
+
+#horaF {
+    border-radius: 15px;
+}
+
+#labelFechaYHora {
+    margin-top: 40px;
+
+}
+
+#lObs {
+    margin-left: 90px;
+}
+
+#insumos {
+    width: 130px;
+    margin-top: 5px;
+    margin-left: 48px;
+    background-color: #f7f6f6;
+    border-radius: 15px;
+}
+
+#observaciones {
+    width: 130px;
+    margin-top: 5px;
+    margin-left: 20px;
+    background-color: #f7f6f6;
+    border-radius: 15px;
+    display: inline-block;
+    resize:none;
+}
+
+#servLimpieza {
+    display: inline;
+    font-size: 15px;
+    margin-right: 50px;
+
+}
+
+.agendar {
+    margin-top: 20px;
+    margin-left: 50px;
+    width: 200px;
+    height: 50px;
+    background-color: #A2DBFF;
+    border-radius: 15px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    color: #011128;
+}
+
+.formularioDiv {
+    top: 95px;
+    left: 361px;
+    width: 400px;
+    height: 550px;
+    background-color: transparent;
+}
+
+input {
+    border: none;
+}
+
+
+/* style de checkbox */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 25px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 25px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 21px;
+    width: 21px;
+    left: 2px;
+    bottom: 2px;
+    background-color: #fff;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: #2196f3;
+}
+
+input:checked+.slider:before {
+    transform: translateX(24px);
+    background-color: #002984;
+}
+
+/*style de calendario*/
+.calendarioDiv {
+    top: 95px;
+    left: 775px;
+    width: 400px;
+    height: 550px;
+    background-color: transparent;
+}
+
+.vistas {
+    margin-top: 30px;
+    margin-left: 20px;
+    width: 90%;
+    height: 50px;
+    background-color: #A2DBFF;
+    justify-content: center;
+    border-radius: 10px;
+
+
+}
+
+.vista {
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 5px;
+    width: 90px;
+    height: 40px;
+    background-color: #002C6F;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 20px;
+    font-family: Lexend Deca;
+    cursor: pointer;
+    border: none;
+}
+
+/* Esto aplica a los h1 dentro de los divs día, mes, y semana */
+#diario h1,
+#semanal h1,
+#mensual h1 {
+    margin: 0;
+    font-size: 15px;
+    text-align: center;
+}
+
+#diario {
+    font-size: 10px;
+    text-align: center;
+}
+
+#semanal {
+    font-size: 10px;
+    text-align: center;
+}
+
+#mensual {
+    font-size: 10px;
+    text-align: center;
+}
+
+.retroceder {
+    display: inline-block;
+    margin-top: 20px;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    background-color: #002C6F;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+
+}
+
+.numDia-mes {
+    font-size: 35px;
+    margin-bottom: 0px;
+
+}
+
+.mes-anio {
+    font-size: 20px;
+}
+
+.avanzar {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    background-color: #002C6F;
+    margin-top: 20px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+
+}
+
+.calendario {
+    margin-top: 0px;
+    margin-left: 20px;
+    width: 90%;
+    height: 300px;
+    background-color: #A2DBFF;
+    border-radius: 25px;
+    color: #fff;
+}
+
+
+
+.divDia {
+    display: inline-block;
+    width: 29px;
+    height: 29px;
+    background-color: #368DFF;
+    border-radius: 100%;
+    margin: 10px;
+    margin-top: 0px;
+    cursor: pointer;
+    text-align: center;
+    font-family: Lexend Deca;
+}
+
+.divDia p {
+    margin-top: 6px;
+}
+
+.col {
+    display: flex;
+    justify-content: center;
+}
+
+#dias {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.diasSemana {
+    display: flex;
+    padding: 10px 0;
+}
+
+.diaSemana {
+    width: 29px;
+    height: 29px;
+    text-align: center;
+    font-family: Lexend Deca;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.diaSemana h1 {
+    font-size: 15px;
+    color: #002C6F;
+    margin-top: 5px;
+}
+
+.divDiaVacia {
+    display: inline-block;
+    width: 29px;
+    height: 29px;
+    background-color: transparent;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.divDia:hover {
+    background-color: #368DFF;
+    border-radius: 100%;
+    transform: scale(1.2);
+    transition: 0.3s;
+}
+
+.diaSemana:hover {
+    background-color: #368DFF;
+    border-radius: 100%;
+    transform: scale(1.2);
+    transition: 0.3s;
+}
+
+.divDiaSem {
+    width: 330px;
+    height: 30px;
+    background-color: #368DFF;
+    border-radius: 10px;
+    margin: 10px;
+    margin-top: 0px;
+    padding-top: 3px;
+    cursor: pointer;
+    text-align: center;
+    font-family: Lexend Deca;
+}
+
+.reservasDia {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)scale(0);
+    width: 300px;
+    height: 280px;
+    background-color: #368DFF;
+    border-radius: 15px;
+    text-align: center;
+    z-index: 100;
+    translate: 0.5s;
+    opacity: 0;
+    /* Empieza invisible */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.reservasDia.show {
+    transform: translate(-50%, -50%) scale(1);
+    /* Escala completa */
+    opacity: 1;
+    /* Totalmente visible */
+}
+
+.cerrarReservas {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+    border-bottom-left-radius: 50%;
+    border-top-right-radius: 50%;
+    cursor: pointer;
+}
+
+.cerrarX {
+    font-size: 25px;
+    text-align: center;
+    margin-top: -5px;
+    font-weight: bold;
+    color: #011128;
+}
+
+.tituloReserva {
+    margin-top: 20px;
+    padding: 0;
+    line-height: 30px;
+    text-align: center;
+}
+
+.reservaPorDiaSemanal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)scale(0);
+    width: 300px;
+    height: 280px;
+    background-color: #368DFF;
+    border-radius: 15px;
+    text-align: center;
+    z-index: 100;
+    translate: 0.5s;
+    opacity: 0;
+    /* Empieza invisible */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#insumos {
+    resize: none;
+}
+
+.cerrar {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+    border-bottom-left-radius: 50%;
+    border-top-right-radius: 50%;
+    cursor: pointer;
+}
+
+.cerrar h1 {
+    font-size: 25px;
+    text-align: center;
+    margin-top: -5px;
+    font-weight: bold;
+    color: #011128;
+}
+
+.flechaAvanzar {
+    width: 15px;
+    height: 15px;
+    margin-top: 7px;
+}
+
+.flechaRetroceder {
+    width: 15px;
+    height: 15px;
+    margin-top: 7px;
+}
+
+.reservasDiaSemana {
+    width: 340px;
+    height: 230px;
+    background-color: #368DFF;
+    z-index: 999;
+    position: absolute;
+    top: 245px;
+    left: 430px;
+    border-radius: 30px;
+}
+
+.cerrarXChico {
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+    border-bottom-left-radius: 50%;
+    border-top-right-radius: 50%;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    cursor: pointer;
+    color: black;
+}
+
+.cerrarXChico p {
+    font-size: 25px;
+    text-align: center;
+    margin-top: 0px;
+    color: #011128;
+}
+
+.horaD {
+    border-radius: 10px;
+}
+
+#horaI {
+    margin-top: 10px;
+    margin-left: 35px;
+}
+
+#horaF {
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+#cantDias {
+    margin-top: 10px;
+    margin-left: 10px;
+    background-color: #f7f6f6;
+    border-radius: 15px;
+    width: 100px;
+    height: 30px;
+}
+
+#resrevarD {
+    margin-top: 10px;
+    margin-left: 100px;
+    width: 100px;
+    height: 30px;
+    background-color: #A2DBFF;
+    border-radius: 15px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    color: #011128;
+}
+.divI{
+    background-color: #1772fa;
+    color: #50B9FA;
+    position: absolute;
+
+}
+.i {
+    position: absolute;
+    top: -115%;
+    left: 35%;
+}
+
+
+#divInfoHoraI{
+   
+    border-radius: 100%;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 291px;
+    left: 190px;
+}
+
+
+
+
+
+#divInfoHoraF{
+    
+    border-radius: 100%;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 291px;
+    left: 280px;
+}
+
+#divInfoInsumos{
+    
+    border-radius: 100%;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 338px;
+    left: 125px;
+}
+
+#divInfoObservaciones{
+   
+    border-radius: 100%;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 338px;
+    left: 334px;
+}
+
+#divInfoLimpieza{ 
+    border-radius: 100%;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 435px;
+    left: 205px;
+}
+
+.alertInfo{
+    position: absolute;
+    background-color: #06215ca4;
+    color: #fff;
+    z-index: 1;
+    font-size: 12px;
+    
+}
+
+#alertInfoHoraI{
+    padding-top: -10px;
+    width: 200px;
+    height: 30px;
+    top: 250px;
+    left: 200px;
+    border-radius: 5px;
+}
+#alertInfoHoraI p{
+    margin-top: -2px;
+    margin-left: 10px;
+}
+
+#alertInfoHoraF{
+    padding-top: -10px;
+    width: 200px;
+    height: 30px;
+    top: 250px;
+    left: 300px;
+    border-radius: 5px;
+}
+
+#alertInfoHoraF p{
+    margin-top: -2px;
+    margin-left: 10px;
+}
+
+#alertInfoInsumos{
+    padding-top: -10px;
+    width: 200px;
+    height: 80px;
+    top: 250px;
+    left: 140px;
+    border-radius: 5px;
+}
+
+#alertInfoInsumos p{
+    margin-top: 0px;
+    margin-left: 10px;
+}
+
+#alertInfoObservaciones{
+    padding-top: -10px;
+    width: 200px;
+    height: 90px;
+    top: 240px;
+    left: 250px;
+    border-radius: 5px;
+}
+
+#alertInfoObservaciones p{
+    margin-top: 0px;
+    margin-left: 10px;
+}
+
+#alertInfoLimpieza{
+    padding-top: -10px;
+    width: 200px;
+    height: 90px;
+    top: 340px;
+    left: 210px;
+    border-radius: 5px;
+}
+
+#alertInfoLimpieza p{
+    margin-top: -2px;
+    margin-left: 10px;
+}
+
+@media (max-width: 992px) {
+    .container {
+        display: block;
+
+    }
+
+    .todo {
+        width: auto;
+        
+        overflow-y: scroll;
+        top: 50%;
+    }
+
+    .img {
+        display: none;
+    }
+
+    .formularioDiv {
+        padding-bottom: 0px;
+        height: 0px;
+    }
+
+    .calendarioDiv {
+        margin-top: 400px;
+    }
+
+    .cerrar {
+        left: 0px;
+        top: 0px;
+        border-top-left-radius: 50%;
+        border-bottom-right-radius: 50%;
+        border-top-right-radius: 0%;
+        border-bottom-left-radius: 0%;
+        z-index: 100;
+    }
+
+    .divI{
+        background-color: #1772fa;
+        color: #50B9FA;
+        position: absolute;
+    
+    }
+    
+    
+    #divInfoHoraI{
+       
+        border-radius: 100%;
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        top: 83px;
+        left: 200px;
+    }
+
+    #divInfoHoraF{
+        
+        border-radius: 100%;
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        top: 83px;
+        left: 292px;
+    }
+    
+    #divInfoInsumos{
+        
+        border-radius: 100%;
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        top: 129px;
+        left: 135px;
+    }
+    
+    #divInfoObservaciones{
+       
+        border-radius: 100%;
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        top: 129px;
+        left: 345px;
+    }
+    
+    #divInfoLimpieza{ 
+        border-radius: 100%;
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        top: 226px;
+        left: 215px;
+    }
+    
+    .alertInfo{
+        position: absolute;
+        background-color: #06215ca4;
+        color: #fff;
+        z-index: 1;
+        font-size: 12px;
+        
+    }
+    
+    #alertInfoHoraI{
+        padding-top: -10px;
+        width: 200px;
+        height: 30px;
+        top: 40px;
+        left: 200px;
+        border-radius: 5px;
+    }
+    #alertInfoHoraI p{
+        margin-top: -2px;
+        margin-left: 10px;
+    }
+    
+    #alertInfoHoraF{
+        padding-top: -10px;
+        width: 180px;
+        height: 30px;
+        top: 40px;
+        left: 230px;
+        border-radius: 5px;
+    }
+    
+    #alertInfoHoraF p{
+        margin-top: -2px;
+        margin-left: 10px;
+    }
+    
+    #alertInfoInsumos{
+        padding-top: -10px;
+        width: 200px;
+        height: 80px;
+        top: 50px;
+        left: 155px;
+        border-radius: 5px;
+    }
+    
+    #alertInfoInsumos p{
+        margin-top: 0px;
+        margin-left: 10px;
+    }
+    
+    #alertInfoObservaciones{
+        padding-top: -10px;
+        width: 200px;
+        height: 90px;
+        top: 50px;
+        left: 145px;
+        border-radius: 5px;
+    }
+    
+    #alertInfoObservaciones p{
+        margin-top: 0px;
+        margin-left: 10px;
+    }
+    
+    #alertInfoLimpieza{
+        padding-top: -10px;
+        width: 200px;
+        height: 90px;
+        top: 130px;
+        left: 200px;
+        border-radius: 5px;
+    }
+    
+    #alertInfoLimpieza p{
+        margin-top: 0px;
+        margin-left: 10px;
+    }
+
+}
+
+@media (max-height: 810px) {
+    .todo {
+    
+        max-height: 100vh; /* Asegura que el div no exceda la altura de la ventana */
+    }
+}
+
+@media (max-width: 515px) {
+
+ 
+    .todo{
+        padding: 0px;
+    }
+
+    .calendarioDiv {
+        padding: 0px;
+    }
+ 
+   /* Sobrescribe los estilos de los contenedores */
+   .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: 0;
+    margin-left: 0;
+}
+}
+
+@media (max-width: 376px) {
+
+    .formularioDiv{
+        width: 350px;
+    }
+
+    .calendarioDiv{
+ 
+        width: 350px;
+    }
+
+    .divDia{
+        width: 25px;
+        height: 25px;
+    }
+
+    .divDiaVacia{
+        width: 25px;
+        height: 25px;
+        
+    }
+    .vista{
+        margin-left: 0px;
+    }
+
+    #fecha{
+        margin-left: 20px;
+    }
+    #insumos{
+        margin-left: 20px;
+    }
+    #servLimpieza{
+        margin-left: 20px;
+    }
+
+    .label{
+        margin-left: 20px;
+    }
+
+    #horaI{
+        margin-left: 40px;
+    }
+    
+}

@@ -1,0 +1,800 @@
+html, body {
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Lexend', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('../../img/fondo.png');
+    background-size: cover;
+    line-height: normal;
+}
+
+/* Estilos para el contenedor del buscador */
+.Buscador {
+    display: flex;
+    align-items: center;
+    margin: 20px auto;
+    justify-content: center;
+    background-color: #55A4FF;
+    border-radius: 10px;
+    padding: 4px;
+    max-width: 600px;
+    width: 100%;
+}
+
+/* Estilos para el icono dentro del buscador */
+.Buscador .IconoBuscador {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+}
+
+/* Estilos para el campo de texto dentro del buscador */
+.Buscador input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    font-style: normal;
+    color: white;
+    border: none;
+    background-color: transparent;
+    border-radius: 5px;
+}
+
+/* Estilos para el campo de texto cuando está enfocado */
+.Buscador input[type="text"]:focus {
+    outline: none;
+}
+
+/* Estilos para el texto del placeholder en el campo de texto */
+.Buscador input[type="text"]::placeholder {
+    color: white;
+    font-family: 'Lexend', sans-serif;
+}
+
+/* Estilos para el contenedor principal */
+#reservas-container {
+    max-height: 82.3vh;
+    overflow-y: auto;
+}
+
+/* Estilos para la barra de desplazamiento en navegadores WebKit */
+#reservas-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+#reservas-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+#reservas-container::-webkit-scrollbar-thumb {
+    background: #3392FF;
+    border-radius: 3px;
+}
+
+#reservas-container::-webkit-scrollbar-thumb:hover {
+    background: #007BFF;
+}
+
+
+.reserva {
+    position: relative;
+    background-color: #3392FF;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center; /* Alinea verticalmente el contenido */
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.reservainfo {
+    flex-grow: 1
+}
+
+.SalaImg {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.texto{
+    margin: 3px;
+}
+
+.sin-reservas {
+    background-color: #3392FF;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.texto-sin-reservas {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 3px;
+    text-align: center;
+}
+
+/* Estilos generales para los botones Eliminar y Editar */
+.Eliminar, .Editar {
+    position: absolute;
+    right: -10px; /* Mueve el botón fuera del borde derecho */
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background-color: #9CD1F2;
+    border: none;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+    pointer-events: all;
+    transition: right 0.4s ease;
+}
+
+.Editar {
+    top: 70%;
+}
+
+/* Estilos para ocultar los íconos dentro de los botones inicialmente */
+#Eliminar, #Editar {
+    width: 25px;
+    height: 25px;
+    margin: 13.5px;
+    opacity: 0; 
+    transition: opacity 0.3s ease; 
+}
+
+/* Mover los botones hacia la derecha y mostrar los íconos al pasar el mouse sobre los botones Eliminar y Editar */
+.Eliminar:hover, .Editar:hover {
+    right: -50px; 
+}
+
+.Eliminar:hover #Eliminar, .Editar:hover #Editar {
+    opacity: 1; 
+}
+
+.Tapar {
+    width: 44px;
+    height: 100%;
+    max-height: 90%;
+    background-color: #3392FF;
+    position: absolute; /* Posiciona el elemento respecto al padre */
+    top: 0; /* Ajusta la posición vertical si es necesario */
+    right: 0;
+    transform: translateY(10%);
+    z-index: 1;
+    border-radius: 20px;
+}
+
+.containerEliminar{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.EliminarMisReserva{
+    background-color: #9CD1F2;
+    padding: 25px 50px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 401px;
+    width: 100%; 
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 1.5); 
+}
+#btnCerrarEliminar{
+    background-color: #3392FF;
+    font-size: 16px;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-left: 5px;
+}
+#btnEliminarMisReserva{
+    background-color: #3392FF;
+    font-size: 16px;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-right: 5px;
+}
+
+.containerEditar {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+/* Contenedor del formulario */
+.formulario-editar-container {
+    background-color: #9CD1F2;
+    padding: 50px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 350px;
+    width: 100%; 
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 1.5); 
+}
+#btnCerrarFormulario{
+    background-color: #3392FF;
+    font-size: 16px;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-left: 5px;
+}
+#btnEditarMisReserva{
+    background-color: #3392FF;
+    font-size: 16px;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-right: 5px;
+}
+
+#servLimpieza {
+    display: inline;
+    font-size: 15px;
+    margin-right: 50px;
+
+}
+
+/* style de checkbox */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 25px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 25px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 21px;
+    width: 21px;
+    left: 2px;
+    bottom: 2px;
+    background-color: #fff;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: #2196f3;
+}
+
+input:checked+.slider:before {
+    transform: translateX(24px);
+    background-color: #002984;
+}
+
+/* Campos de entrada del formulario */
+#sala,
+#fecha,
+#hora_inicio,
+#hora_fin,
+#insumo,
+#observaciones{
+    width: 100%;
+    max-width: 332px; 
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.alert{
+    position: absolute;
+    background-color: #9CD1F2;
+    padding: 20px 40px;
+    min-width: 420px;
+    right: 0;
+    top: 10px;
+    overflow: hidden;
+    border-radius: 4px;
+    border-left: 8px solid #3392FF;
+    --bs-alert-border-color: auto;
+}
+.alert.showAlert{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.alert.show{
+    animation: show_slide 1s ease forwards;
+}
+@keyframes show_slide {
+    0%{
+        transform: translateX(100%);
+    }
+    40%{
+        transform: translateX(-10%);
+    }
+    80%{
+        transform: translateX(0%);
+    }
+    100%{
+        transform: translateX(-10%);
+    }
+}
+.alert.hide{
+    animation: hide_slide 1s ease forwards;
+}
+@keyframes hide_slide {
+    0%{
+        transform: translateX(-10%);
+    }
+    40%{
+        transform: translateX(0%);
+    }
+    80%{
+        transform: translateX(-10%);
+    }
+    100%{
+        transform: translateX(100%);
+    }
+}
+.alert .fa-exclamation-circule .fa-check{
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #3392FF;
+    font-size: 30px;
+}
+
+.alert .msg{
+    padding: 0 20px;
+    font-size: 18px;
+    color: white;
+    font-family: "lexend";
+}
+
+.alert .close-btn{
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #55A4FF;
+    padding: 20px 18px;
+    cursor: pointer;
+}
+
+.close-btn:hover{
+    background: #3392FF;
+}
+
+.close-btn .fa-times{
+    color: white;
+    font-size: 22px;
+    line-height: 40px;
+}
+
+/* Media Queries */
+
+@media (min-width: 375px) and (max-width: 667px) {
+
+    .alert {
+        padding: 16px 16px;
+        min-width: 297px;
+    }
+
+    .alert .msg {
+        font-size: 13px;
+    }
+
+    .formulario-editar-container {
+        max-width: 220px;
+        height: 420px;
+    }
+
+    body .h2, body h2 {
+        font-size: calc(1.325rem + .9vw);
+        margin-top: -30px;
+        margin-bottom: 10px;
+    }
+
+    #sala, #fecha, #hora_inicio, #hora_fin, #insumo, #observaciones {
+        padding: 5px;
+        max-width: 202px;
+    }
+
+    #servLimpieza {
+        margin-right: 5px;
+    }
+
+    #btnEditarMisReserva {
+        font-size: 14px;
+        padding: 8px 10px;
+        margin-top: 20px;
+        margin-right: 2px;
+    }
+
+    #btnCerrarFormulario {
+        font-size: 14px;
+        padding: 8px 10px;
+        margin-top: 20px;
+        margin-right: 0px;
+    }
+
+    .EliminarMisReserva {
+        max-width: 220px;
+    }
+
+    #reservas-container {
+        max-height: 78.7vh;
+    }
+    .Buscador {
+        width: 265px;
+    }
+    .reserva {
+        max-width: 265px !important;
+    }
+    #Eliminar, #Editar {
+        opacity: 1;
+    }
+
+    .Eliminar, .Editar {
+        right: -25px;
+        background: linear-gradient(to right, #3392FF, #9CD1F2);
+    }
+    .Eliminar:hover, .Editar:hover {
+        right: -25px;
+    }
+
+    .Tapar {
+        display: none;
+    }
+}
+
+/* 344px - 767px */
+@media (min-width: 344px) and (max-width: 767px) {
+    .reserva {
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #Eliminar, #Editar {
+        opacity: 1;
+    }
+
+    .SalaImg {
+        display: none;
+    }
+
+    .BuscadorFiltro {
+        flex-direction: column;
+        max-width: 300px;
+    }
+
+    .Filtro {
+        margin-top: 10px;
+        margin-left: 0;
+    }
+
+    .Tapar {
+        display: none;
+    }
+}
+
+/* 390px - 844px */
+@media (min-width: 390px) and (max-width: 844px) {
+    #reservas-container {
+        max-height: 82.7vh;
+    }
+    #Eliminar, #Editar {
+        opacity: 1;
+    }
+
+    .Buscador {
+        width: 255px;
+    }
+
+    .reserva {
+        max-width: 275px !important;
+    }
+
+    .Eliminar, .Editar {
+        right: -25px;
+        background: linear-gradient(to right, #3392FF, #9CD1F2);
+    }
+    .Eliminar:hover, .Editar:hover {
+        right: -25px;
+    }
+
+    .Tapar {
+        display: none;
+    }
+}
+
+@media (min-width: 540px) and (max-width: 720px) {
+
+    .formulario-editar-container {
+        max-width: 300px;
+    }
+
+    body .h2, body h2 {
+        font-size: calc(1.325rem + .9vw);
+        margin-top: -30px;
+        margin-bottom: 10px;
+    }
+
+    #sala, #fecha, #hora_inicio, #hora_fin, #insumo, #observaciones {
+        padding: 5px;
+        max-width: 273px;
+    }
+
+    #servLimpieza {
+        margin-right: 5px;
+    }
+
+    #btnEditarMisReserva {
+        font-size: 16px;
+        padding: 10px 20px;
+        margin-top: 20px;
+        margin-right: 2px;
+    }
+
+    #btnCerrarFormulario {
+        font-size: 16px;
+        padding: 10px 20px;
+        margin-top: 20px;
+        margin-right: 0px;
+    }
+
+    .EliminarMisReserva {
+        max-width: 300px;
+    }
+
+    #reservas-container {
+        max-height: 79.8vh !important;
+    }
+    .Buscador {
+        width: 375px !important;
+    }
+    #Eliminar, #Editar {
+        opacity: 1;
+    }
+
+
+    body .reserva {
+        max-width: 410px !important;
+    }
+
+    .Tapar {
+        display: none;
+    }
+}
+
+/* 412px - 914px */
+@media (min-width: 412px) and (max-width: 914px) {
+    .Reserva {
+        max-width: 295px !important;
+    }
+    #Eliminar, #Editar {
+        opacity: 1;
+    }
+
+    #reservas-container {
+        max-height: 84vh;
+    }
+
+    .Buscador {
+        width: 275px;
+    }
+
+    .Eliminar, .Editar {
+        right: -25px;
+        background: linear-gradient(to right, #3392FF, #9CD1F2);
+    }
+    .Eliminar:hover, .Editar:hover {
+        right: -25px;
+    }
+
+    .Tapar {
+        display: none;
+    }
+}
+
+/* 430px - 932px */
+@media (min-width: 430px) and (max-width: 932px) {
+    #reservas-container {
+        max-height: 84.2vh;
+    }
+    #Eliminar, #Editar {
+        opacity: 1;
+    }
+    .Tapar {
+        display: none;
+    }
+}
+
+/* 600px - 1024px */
+@media (min-width: 600px) and (max-width: 1024px) {
+    body #reservas-container {
+        max-height: 75.6vh;
+    }
+    #Eliminar, #Editar {
+        opacity: 1;
+    }
+
+    .Eliminar, .Editar {
+        right: -25px;
+        background: linear-gradient(to right, #3392FF, #9CD1F2);
+    }
+
+    .Eliminar:hover, .Editar:hover {
+        right: -25px;
+    }
+
+    .reserva {
+        max-width: 700px !important;
+    }
+
+    .BuscadorFiltro {
+        width: 685px;
+    }
+    .Tapar {
+        display: none;
+    }
+}
+
+/* 768px - 1024px */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    #reservas-container {
+        max-height: 85.6vh !important;
+    }
+    #Eliminar, #Editar {
+        opacity: 1;
+    }
+    .reserva {
+        max-width: 630px !important;
+    }
+
+    .Buscador {
+        width: 615px;
+        max-width: 630px;
+    }
+    .Tapar {
+        display: none;
+    }
+}
+
+/* 800px - 1280px */
+@media (min-width: 800px) and (max-width: 1280px) {
+    .Eliminar, .Editar {
+        right: -25px;
+        background: linear-gradient(to right, #3392FF, #9CD1F2);
+    }
+    #Eliminar, #Editar {
+        opacity: 1;
+    }
+    .Eliminar:hover, .Editar:hover {
+        right: -25px;
+    }
+    .Tapar {
+        display: none;
+    }
+}
+
+/* 820px - 1180px */
+@media (min-width: 820px) and (max-width: 1180px) {
+    body #reservas-container {
+        max-height: 87.7vh !important;
+    }
+    .Buscador {
+        width: 620px;
+        max-width: 700px;
+    }
+    #Eliminar, #Editar {
+        opacity: 1;
+    }
+    .Tapar {
+        display: none;
+    }
+}
+
+/* 853px - 1220px */
+@media (min-width: 853px) and (max-width: 1220px) {
+    body #reservas-container {
+        max-height: 88.9vh !important;
+    }
+    .reserva {
+        max-width: 700px !important;
+    }
+    .Buscador{
+        width: 685px;
+        max-width: 700px;
+    }
+    #Eliminar, #Editar {
+        opacity: 1;
+    }
+    .Tapar {
+        display: none;
+    }
+}
+
+/* 912px - 1366px */
+@media (min-width: 912px) and (max-width: 1366px) {
+    .Buscador {
+        width: 650px;
+    }
+    #Eliminar, #Editar {
+        opacity: 1;
+    }
+
+     .reserva {
+        max-width: 660px !important;
+    }
+    .Tapar {
+        display: none;
+    }
+}
+
+/* 1024px - 1368px */
+@media (min-width: 1024px) and (max-width: 1368px) {
+    .reserva {
+        max-width: 780px !important;
+    }
+
+    .Buscador {
+        width: 765px;
+        max-width: 780px;
+    }
+}

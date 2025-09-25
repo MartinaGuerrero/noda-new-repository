@@ -1,0 +1,910 @@
+body{
+    margin: 0%;
+    padding: 0%;
+    background-color: #A2DBFF;
+    font-family: 'lexend', sans-serif;
+    overflow: hidden;
+    }
+    
+    
+    #header{
+    width: 100%;
+    height: 60px;
+    background-color: #55A4FF;
+    }
+    
+    .opciones {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    
+    }
+    
+    #escuela {
+        width: 10%;
+        height: 30px;
+        background-color: #3392FF;
+        border-radius: 20px;
+        position: absolute;
+        z-index: 2;
+        top: 80px;
+        right: 260px;
+        cursor: pointer;
+        display: flex;
+        justify-content: flex-end; 
+        align-items: center;
+    }
+    #escuela:hover {
+        background-color: #64B9FF;
+        transition: background-color 0.5s ease;
+        transition: width 0.5s ease, justify-content 0.5s ease; 
+    }
+    
+    #escuela h1 {
+        color: white;
+        font-size: 15px;
+        margin-right: 15px; 
+        user-select: none;
+        transition: margin-right 0.5s ease; 
+    }
+    
+    #liceo {
+        width: 62%;
+        height: 30px;
+        background-color: #002C6F;
+        border-radius: 20px;
+        position: absolute;
+        z-index: 2;
+        top: 80px;
+        left: 15%;
+        display: flex;
+        justify-content: flex-end; 
+        align-items: center;
+        transition: width 0.5s ease; 
+    }
+    
+    #liceo h1 {
+        color: white;
+        font-size: 15px;
+        margin-right: 15px;
+        user-select: none;
+        transition: margin-left 0.5s ease;
+    }
+    #blanco1{
+        width: 45%;
+        height: 550px;
+        background-color: aliceblue;
+        position: absolute;
+        top: 140px;
+        left: 150px;
+         clip-path: polygon(0% 0%, 98% 0%, 70% 100%, 0% 100%);
+    }
+    
+    #blanco2{
+        width: 45%;
+        height: 550px;
+        background-color: aliceblue;
+        position: absolute;
+        top: 140px;
+        left: 680px;
+        clip-path: polygon(28% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+    
+    #verSalas{
+        width: 97%;
+        height: 97%;
+        background-color: aliceblue;
+        position: absolute;
+        left:10px;
+        top: 8px;
+         clip-path: polygon(0% 0%, 98% 0%, 70% 100%, 0% 100%);
+         background-color:  #4DACFF;
+         transition: all 0.3s ease;
+    
+    }
+    #verSalas img{
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        left: 140px;
+        top: 100px;
+        user-select: none;
+    }
+    #verSalas h1{
+        font-size: 30px;
+        color: white;
+        position: absolute;
+        left: 160px;
+        top: 325px;
+        user-select: none;
+    }
+    #verSalas:hover{
+        transform: scale(1.035);
+    }
+    
+    #misReservas{
+        width: 97%;
+        height: 97%;
+        position: absolute;
+        left:12px;
+        top: 8px;
+        background-color: #3392FF;
+        transition: all 0.3s ease;
+        clip-path: polygon(28% 0%, 100% 0%, 100% 100%, 0% 100%);
+    
+    }
+    
+    #misReservas img{
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        left: 270px;
+        top: 100px;
+        user-select: none;
+    }
+    #misReservas h1{
+        font-size: 30px;
+        color: white;
+        position: absolute;
+        left: 270px;
+        top: 325px;
+        user-select: none;
+    }
+    
+    #misReservas:hover{
+        transform: scale(1.035);
+    }
+
+    
+    
+    @media (min-width: 375px) and (max-width: 667px) {
+        #escuela {
+            width: 30%;
+            height: 30px;
+            z-index: 2;
+            right: 50px;
+       
+        }
+    
+        #escuela h1 {
+            margin-right: 15px;    
+        }
+        
+        #liceo {
+            width: 48%;   
+        }
+        
+        #liceo h1 {
+            margin-right: 15px;
+        }
+
+        #verSalas, #misReservas { 
+            clip-path: initial; 
+            width: 96%;
+            height: 95%;
+            left: 6px;
+            top: 5.3px;
+        }
+    
+        #blanco1{
+            width: 335px;
+            height: 200px;
+            left: 20px;
+            top: 155px;
+            clip-path: initial;
+        }
+        #blanco2{
+            width: 335px;
+            height: 200px;
+            left: 20px;
+            top: 400px;
+            clip-path: initial;
+        }
+    
+    
+        #verSalas img {
+            width: 100px;
+            height: 100px;
+            left: 115px;
+            top: 20px;
+        }
+        #verSalas h1 {
+            left: 90px;
+            top: 120px;
+         
+        }
+        #misReservas img {
+            width: 100px;
+            height: 100px;
+            left: 115px;
+            top: 20px;
+        }
+        #misReservas h1 {
+            left: 70px;
+            top: 120px;
+        }
+       
+    }
+
+    @media (min-width: 414px) and (max-width: 896px) {
+        #verSalas, #misReservas { 
+            clip-path: initial; 
+            width: 96%;
+            height: 95%;
+            left: 6px;
+            top: 5.3px;
+        }
+    
+        #blanco1{
+            width: 335px;
+            height: 250px;
+            left: 41px;
+            top: 200px;
+            clip-path: initial;
+        }
+        #blanco2{
+            width: 335px;
+            height: 250px;
+            left: 41px;
+            top: 500px;
+            clip-path: initial;
+        }
+    
+    
+        #verSalas img {
+            width: 100px;
+            height: 100px;
+            left: 115px;
+            top: 20px;
+        }
+        #verSalas h1 {
+            left: 90px;
+            top: 120px;
+         
+        }
+        #misReservas img {
+            width: 100px;
+            height: 100px;
+            left: 115px;
+            top: 20px;
+        }
+        #misReservas h1 {
+            left: 70px;
+            top: 120px;
+        }
+       
+    }
+
+    @media (min-width: 390px) and (max-width: 844px) {
+
+        #escuela {
+            width: 30%;
+            height: 30px;
+            z-index: 2;
+            right: 50px;
+       
+        }
+    
+        #escuela h1 {
+            margin-right: 15px;    
+        }
+        
+        #liceo {
+            width: 50%;   
+            left: 13%;
+        }
+        
+        #liceo h1 {
+            margin-right: 15px;
+        }
+
+        #verSalas, #misReservas { 
+            clip-path: initial; 
+            width: 96%;
+            height: 95%;
+            left: 6px;
+            top: 5.3px;
+        }
+    
+        #blanco1{
+            width: 335px;
+            height: 250px;
+            left: 31px;
+            top: 200px;
+            clip-path: initial;
+        }
+        #blanco2{
+            width: 335px;
+            height: 250px;
+            left: 31px;
+            top: 500px;
+            clip-path: initial;
+        }
+    
+    
+        #verSalas img {
+            width: 100px;
+            height: 100px;
+            left: 115px;
+            top: 20px;
+        }
+        #verSalas h1 {
+            left: 90px;
+            top: 120px;
+         
+        }
+        #misReservas img {
+            width: 100px;
+            height: 100px;
+            left: 115px;
+            top: 20px;
+        }
+        #misReservas h1 {
+            left: 70px;
+            top: 120px;
+        }
+
+       
+    }
+
+
+   
+    
+    @media (min-width: 430px) and (max-width: 932px) {
+        #escuela {
+            width: 30%;
+            height: 30px;
+            z-index: 2;
+            right: 55px;
+       
+        }
+    
+        #escuela h1 {
+            margin-right: 15px;    
+        }
+        
+        #liceo {
+            width: 54%;   
+            left: 12%;
+        }
+        
+        #liceo h1 {
+            margin-right: 15px;
+        }
+
+        #verSalas, #misReservas { 
+            clip-path: initial; 
+            width: 96%;
+            height: 95%;
+            left: 6px;
+            top: 5.3px;
+        }
+    
+        #blanco1{
+            width: 335px;
+            height: 250px;
+            left: 43px;
+            top: 200px;
+            clip-path: initial;
+        }
+        #blanco2{
+            width: 335px;
+            height: 250px;
+            left: 43px;
+            top: 500px;
+            clip-path: initial;
+        }
+    
+    
+        #verSalas img {
+            width: 100px;
+            height: 100px;
+            left: 115px;
+            top: 20px;
+        }
+        #verSalas h1 {
+            left: 90px;
+            top: 120px;
+         
+        }
+        #misReservas img {
+            width: 100px;
+            height: 100px;
+            left: 115px;
+            top: 20px;
+        }
+        #misReservas h1 {
+            left: 70px;
+            top: 120px;
+        }
+       
+    }
+
+        
+    @media (min-width: 412px) and (max-width: 915px) {
+
+        #escuela {
+            width: 30%;
+            height: 30px;
+            z-index: 2;
+            right: 50px;
+       
+        }
+    
+        #escuela h1 {
+            margin-right: 15px;    
+        }
+        
+        #liceo {
+            width: 54%;   
+        }
+        
+        #liceo h1 {
+            margin-right: 15px;
+        }
+
+        #verSalas, #misReservas {
+            clip-path: initial; 
+            width: 96%;
+            height: 95%;
+            left: 6px;
+            top: 5.3px;
+        }
+    
+        #blanco1{
+            width: 335px;
+            height: 250px;
+            left: 39px;
+            top: 200px;
+            clip-path: initial;
+        }
+        #blanco2{
+            width: 335px;
+            height: 250px;
+            left: 39px;
+            top: 500px;
+            clip-path: initial;
+        }
+    
+    
+        #verSalas img {
+            width: 100px;
+            height: 100px;
+            left: 115px;
+            top: 20px;
+        }
+        #verSalas h1 {
+            left: 90px;
+            top: 120px;
+         
+        }
+        #misReservas img {
+            width: 100px;
+            height: 100px;
+            left: 115px;
+            top: 20px;
+        }
+        #misReservas h1 {
+            left: 70px;
+            top: 120px;
+        }
+
+       
+       
+    }
+    @media (min-width: 540px) and (max-width: 720px) {
+
+        #escuela {
+            width: 64%;
+            height: 30px;
+            z-index: 2;
+            right: 75px;
+        }
+    
+        #escuela h1 {
+            margin-right: 15px;    
+        }
+        
+        #liceo {
+            width: 60%;   
+            left: 10%;
+        }
+    
+        #liceo h1 {
+            margin-right: 15px;
+        }
+
+        #verSalas, #misReservas {
+            clip-path: initial; 
+            width: 96%;
+            height: 95%;
+            left: 6px;
+            top: 5.3px;
+        }
+    
+        #blanco1{
+            width: 335px;
+            height: 250px;
+            left: 94px;
+            top: 167px;
+            clip-path: initial;
+        }
+        #blanco2{
+            width: 335px;
+            height: 250px;
+            left: 94px;
+            top: 452px;
+            clip-path: initial;
+        }
+    
+    
+        #verSalas img {
+            width: 100px;
+            height: 100px;
+            left: 115px;
+            top: 20px;
+        }
+        #verSalas h1 {
+            left: 90px;
+            top: 120px;
+         
+        }
+        #misReservas img {
+            width: 100px;
+            height: 100px;
+            left: 115px;
+            top: 20px;
+        }
+        #misReservas h1 {
+            left: 70px;
+            top: 120px;
+        }
+       
+    }
+
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    #escuela {
+        width: 30%;
+        height: 30px;
+        z-index: 2;
+        right: 75px;
+   
+    }
+
+    #escuela h1 {
+        margin-right: 15px;    
+    }
+    
+    #liceo {
+        width: 69%;   
+        left: 10%;
+    }
+    
+    #liceo h1 {
+        margin-right: 15px;
+    }
+
+        #verSalas, #misReservas {
+            clip-path: initial; 
+            width: 98%;
+            height: 98%;
+            left: 6px;
+            top: 5.3px;
+        }
+    
+        #blanco1{
+            width: 650px;
+            height: 550px;
+            left: 60px;
+            top: 200px;
+            clip-path: polygon(0% 0%, 184% -2%, -60% 103%, -12% 100%);
+        }
+        #blanco2{
+            width: 650px;
+            height: 550px;
+            left: 60px;
+            top:300px;
+            clip-path: polygon(100% 100%, 175% -9%, -60% 91%, -12% 100%);
+
+        }
+    
+    
+        #verSalas img {
+            width: 150px;
+            height: 150px;
+            left: 100px;
+            top: 20px;
+        }
+        #verSalas h1 {
+            left: 400px;
+            top: 120px;
+         
+        }
+        #misReservas img {
+            width: 150px;
+            height: 150px;
+            left: 400px;
+            top: 300px;
+        }
+        #misReservas h1 {
+            left:100px;
+            top: 370px;
+        }
+       
+}
+
+@media (min-width: 820px) and (max-width: 1180px) {
+    #escuela {
+        width: 64%;
+        height: 30px;
+        z-index: 2;
+        right: 75px;
+   
+    }
+
+    #escuela h1 {
+        margin-right: 15px;    
+    }
+    
+    #liceo {
+        width: 70%;   
+        left: 10%;
+    }
+    
+    #liceo h1 {
+        margin-right: 15px;
+    }
+
+        #verSalas, #misReservas {
+            clip-path: initial; 
+            width: 98%;
+            height: 98%;
+            left: 6px;
+            top: 5.3px;
+        }
+    
+        #blanco1{
+            width: 650px;
+            height: 550px;
+            left: 82px;
+            top: 280px;
+            clip-path: polygon(0% 0%, 184% -2%, -60% 103%, -12% 100%);
+        }
+        #blanco2{
+            width: 650px;
+            height: 550px;
+            left: 82px;
+            top:380px;
+            clip-path: polygon(100% 100%, 175% -9%, -60% 91%, -12% 100%);
+
+        }
+    
+    
+        #verSalas img {
+            width: 150px;
+            height: 150px;
+            left: 100px;
+            top: 20px;
+        }
+        #verSalas h1 {
+            left: 400px;
+            top: 120px;
+         
+        }
+        #misReservas img {
+            width: 150px;
+            height: 150px;
+            left: 400px;
+            top: 300px;
+        }
+        #misReservas h1 {
+            left:100px;
+            top: 370px;
+        }
+       
+}
+
+ 
+@media (min-width: 1024px) and (max-width: 1368px) {
+    body #verSalas, body #misReservas {
+        clip-path: initial; 
+        width: 98%;
+        height: 98%;
+        left: 6px;
+        top: 5.3px;
+    }
+
+    body #blanco1{
+        width: 710px;
+        height: 620px;
+        left: 162px;
+        top: 359px;
+        clip-path: polygon(0% 0%, 184% -2%, -60% 103%, -12% 100%);
+    }
+    
+    body #blanco2{
+        width: 710px;
+        height: 620px;
+        left: 162px;
+        top:525px;
+        clip-path: polygon(100% 100%, 175% -9%, -60% 91%, -12% 100%);
+
+    }
+
+
+    body #verSalas img {
+        width: 150px;
+        height: 150px;
+        left: 100px;
+        top: 100px;
+    }
+    body #verSalas h1 {
+        left: 400px;
+        top: 120px;
+     
+    }
+    body #misReservas img {
+        width: 150px;
+        height: 150px;
+        left: 450px;
+        top: 300px;
+    }
+    body #misReservas h1 {
+        left:100px;
+        top: 400px;
+    }
+   
+}
+
+@media (min-width: 912px) and (max-width: 1366px) {
+    #escuela {
+        width: 12%;
+        height: 30px;
+        z-index: 2;
+        right: 75px;
+   
+    }
+
+    #escuela h1 {
+        margin-right: 15px;    
+    }
+    
+    #liceo {
+        width: 74%;   
+        left: 8%;
+    }
+    
+    #liceo h1 {
+        margin-right: 15px;
+    }
+
+    #verSalas, #misReservas {
+        clip-path: initial; 
+        width: 98%;
+        height: 98%;
+        left: 6px;
+        top: 5.3px;
+    }
+
+    #blanco1{
+        width: 710px;
+        height: 620px;
+        left: 95px;
+        top: 359px;
+        clip-path: polygon(0% 0%, 184% -2%, -60% 103%, -12% 100%);
+    }
+    
+    #blanco2{
+        width: 710px;
+        height: 620px;
+        left: 95px;
+        top:525px;
+        clip-path: polygon(100% 100%, 175% -9%, -60% 91%, -12% 100%);
+
+    }
+
+
+    #verSalas img {
+        width: 150px;
+        height: 150px;
+        left: 100px;
+        top: 100px;
+    }
+    
+    #verSalas h1 {
+        left: 400px;
+        top: 120px;
+     
+    }
+    #misReservas img {
+        width: 150px;
+        height: 150px;
+        left: 450px;
+        top: 300px;
+    }
+    #misReservas h1 {
+        left:100px;
+        top: 400px;
+    }
+   
+}
+
+@media (min-width: 853px) and (max-width: 1280px) {
+    #escuela {
+        width: 14%;
+        height: 30px;
+        z-index: 2;
+        right: 75px;
+   
+    }
+
+    #escuela h1 {
+        margin-right: 15px;    
+    }
+    
+    #liceo {
+        width: 73%;   
+        left: 8%;
+    }
+    
+    #liceo h1 {
+        margin-right: 15px;
+    }
+    
+    #verSalas, #misReservas {
+        clip-path: initial; 
+        width: 98%;
+        height: 98%;
+        left: 6px;
+        top: 5.3px;
+    }
+
+    #blanco1{
+        width: 710px;
+        height: 620px;
+        left: 76px;
+        top: 359px;
+        clip-path: polygon(0% 0%, 184% -2%, -60% 103%, -12% 100%);
+    }
+    
+    #blanco2{
+        width: 710px;
+        height: 620px;
+        left: 76px;
+        top:525px;
+        clip-path: polygon(100% 100%, 175% -9%, -60% 91%, -12% 100%);
+
+    }
+
+
+    #verSalas img {
+        width: 150px;
+        height: 150px;
+        left: 100px;
+        top: 100px;
+    }
+    
+    #verSalas h1 {
+        left: 400px;
+        top: 120px;
+     
+    }
+    #misReservas img {
+        width: 150px;
+        height: 150px;
+        left: 450px;
+        top: 300px;
+    }
+    #misReservas h1 {
+        left:100px;
+        top: 400px;
+    }
+   
+}
+
+
+
