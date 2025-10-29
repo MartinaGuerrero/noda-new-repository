@@ -45,26 +45,27 @@ $(document).ready(function () {
     });
 
     // Obtener las salas disponibles
-    $.ajax({
-        url: 'modelo/ObtenerSalasP.php',
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            console.log('Respuesta del servidor:', data);
+$.ajax({
+    url: 'modelo/ObtenerSalasP.php',
+    type: 'GET',
+    dataType: 'json',
+    success: function (data) {
+        console.log('Respuesta del servidor:', data);
 
-            if (data.length === 0) {
-                $('.ContenedorSalas').append('<p class="mensaje-salas">No hay salas disponibles en este momento.</p>');
-            } else {
-                data.forEach(function (sala) {
-                    let recursos = sala.recursos.length > 0 ? sala.recursos.join(', ') : 'Sin recursos';
-                    agregarSala(sala.id, sala.nombre, sala.capacidad, recursos, sala.imagen);
-                });
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error('Error al obtener las salas:', error);
+        if (data.length === 0) {
+            $('.ContenedorSalas').append('<p class="mensaje-salas">No hay salas disponibles en este momento.</p>');
+        } else {
+            data.forEach(function (sala) {
+                sala.recursos = sala.recursos || '';
+                let recursos = sala.recursos.length > 0 ? sala.recursos : 'Sin recursos';
+                agregarSala(sala.id, sala.nombre, sala.capacidad, recursos, sala.imagen);
+            });
         }
-    });
+    },
+    error: function (xhr, status, error) {
+        console.error('Error al obtener las salas:', error);
+    }
+});
 
     // Lógica del buscador
     document.getElementById('buscar').addEventListener('keyup', function () {
@@ -228,6 +229,7 @@ $(document).ready(function () {
 
     // Función para agregar una sala al DOM
     function agregarSala(id, nombre, capacidad, recursos, imagen) {
+        imagen = imagen ? imagen : 'vista/img/fondo.png';
         let salaHTML = `
     <div class="Sala" id="sala-${id}">  
         <div class="SalaInfo">

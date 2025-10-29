@@ -1,16 +1,16 @@
-<?php 
+<?php
 // Iniciar la sesión
 session_start();
 
 // Verificar si el usuario ya está logueado
-if(isset($_SESSION['usuario'])){
+if (isset($_SESSION['usuario'])) {
     // Redirigir al usuario a la página principal si ya está logueado
     header('Location: ../index.php');
     exit();
 }
 
 // Verificar si la solicitud es de tipo POST
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Obtener la acción del formulario (login o signup)
     $action = $_POST['action'];
 
@@ -23,8 +23,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 // Función para manejar el inicio de sesión
-function login(){
-    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+function login() {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Sanitizar y obtener los datos del formulario
         $email = filter_var(strtolower($_POST['email']), FILTER_SANITIZE_EMAIL);
         $password = $_POST['password'];
@@ -40,11 +40,11 @@ function login(){
             header('Location: ' . $_SERVER['PHP_SELF']);
             exit();
         }
-        
+
         // Preparar y ejecutar la consulta SQL para verificar las credenciales
         $statement = $conexion->prepare('SELECT * FROM usuario WHERE email = :email AND password = :password');
         $statement->execute(array(
-            ':email' => $email, 
+            ':email' => $email,
             ':password' => $password
         ));
 
@@ -75,12 +75,12 @@ function login(){
                 $('.alert').removeClass("hide");
                 $('.alert').addClass("show");
                 $('.alert').addClass("showAlert");
-                setTimeout(function(){
+                setTimeout(function () {
                     $('.alert').removeClass("show");
                     $('.alert').addClass("hide");
                 }, 5000);
 
-                $('.close-btn').click(function(){
+                $('.close-btn').click(function () {
                     $('.alert').removeClass("show");
                     $('.alert').addClass("hide");
                 });
@@ -134,12 +134,12 @@ function registro() {
                     $('.alert').removeClass("hide");
                     $('.alert').addClass("show");
                     $('.alert').addClass("showAlert");
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $('.alert').removeClass("show");
                         $('.alert').addClass("hide");
                     }, 5000);
 
-                    $('.close-btn').click(function() {
+                    $('.close-btn').click(function () {
                         $('.alert').removeClass("show");
                         $('.alert').addClass("hide");
                     });
@@ -163,12 +163,12 @@ function registro() {
                 $('.alert').removeClass("hide");
                 $('.alert').addClass("show");
                 $('.alert').addClass("showAlert");
-                setTimeout(function() {
+                setTimeout(function () {
                     $('.alert').removeClass("show");
                     $('.alert').addClass("hide");
                 }, 5000);
 
-                $('.close-btn').click(function() {
+                $('.close-btn').click(function () {
                     $('.alert').removeClass("show");
                     $('.alert').addClass("hide");
                 });
@@ -203,12 +203,12 @@ function registro() {
             $('.alert').removeClass("hide");
             $('.alert').addClass("show");
             $('.alert').addClass("showAlert");
-            setTimeout(function() {
+            setTimeout(function () {
                 $('.alert').removeClass("show");
                 $('.alert').addClass("hide");
             }, 5000);
 
-            $('.close-btn').click(function() {
+            $('.close-btn').click(function () {
                 $('.alert').removeClass("show");
                 $('.alert').addClass("hide");
             });
