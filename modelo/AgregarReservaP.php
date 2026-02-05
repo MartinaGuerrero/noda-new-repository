@@ -19,7 +19,7 @@ $data = [
 ];
 
 $model = new ReservasModel($conn);
-$resultado = $model->crearReserva($data, 'secundaria');
+$resultado = $model->crearReserva($data, 'primaria');
 
 header('Content-Type: application/json');
 echo json_encode($resultado);
