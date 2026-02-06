@@ -1,1 +1,3 @@
-<?php require_once 'EliminarReserva.php';
+<?php
+ require_once 'EliminarReserva.php';
+?>

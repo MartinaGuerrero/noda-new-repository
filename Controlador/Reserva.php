@@ -1,5 +1,5 @@
 <?php
-class usuario{
+class Reserva{
     private $Id;
     private $Observaciones;
     private $FechaYHoraInicio;

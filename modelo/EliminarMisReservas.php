@@ -8,7 +8,7 @@ if (isset($_POST['id'])) {
     $id_reserva = $_POST['id'];
 
     // Incluir la conexión a la base de datos
-    require_once '../Controlador/conexion.php';  // Asegúrate de que la ruta es correcta
+    require_once '../Controlador/conexion.php';  
 
     // Luego, eliminar la Reserva de la tabla 'reserva'
     $sql_reserva = "DELETE FROM reserva WHERE id_auto = ?";
