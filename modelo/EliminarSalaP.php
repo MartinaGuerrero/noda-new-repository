@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $id = $_POST['id'] ?? null;
 
 $model = new EspaciosModel($conn);
-$resultado = $model->eliminarSala($id, 'secundaria');
+$resultado = $model->eliminarSala($id, 'primaria');
 
 header('Content-Type: application/json');
 echo json_encode($resultado);
