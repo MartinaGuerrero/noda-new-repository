@@ -145,6 +145,111 @@ class ReservasModel
         return ["status" => "error", "message" => "Error al eliminar la reserva"];
     }
 
+    public function obtenerReservasPorFechaSala($fecha, $idSala)
+    {
+        if (!$fecha || !$idSala) {
+            return [];
+        }
+
+        $sql = "
+        SELECT 
+            r.fecha,
+            r.hora_i,
+            r.hora_f,
+            r.fk_id_e,
+            u.nombre AS usuario_nombre,
+            u.apellido AS usuario_apellido
+        FROM 
+            reserva r
+        JOIN 
+            usuario u ON r.fk_email = u.email
+        WHERE 
+            r.fecha = ? AND r.fk_id_e = ?
+        ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("si", $fecha, $idSala);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $reservas = [];
+        while ($row = $result->fetch_assoc()) {
+            $reservas[] = [
+                'fecha' => $row["fecha"],
+                'hora' => $row["hora_i"] . " - " . $row["hora_f"],
+                'nombre' => $row["usuario_nombre"] . " " . $row["usuario_apellido"],
+            ];
+        }
+
+        return $reservas;
+    }
+
+    public function crearReservaDiaSemana($data)
+    {
+        $fecha = $data['fecha'] ?? null;
+        $horaI = $data['horaI'] ?? null;
+        $horaF = $data['horaF'] ?? null;
+        $cantidad = isset($data['cantidad']) ? (int) $data['cantidad'] : 0;
+        $email = $data['email'] ?? null;
+        $salaId = isset($data['sala']) ? (int) $data['sala'] : 0;
+
+        if (!$fecha || !$horaI || !$horaF || !$email || !$salaId) {
+            return ["status" => "error", "message" => "Faltan datos obligatorios."];
+        }
+
+        if ($cantidad <= 0) {
+            return ["status" => "error", "message" => "La cantidad debe ser mayor que cero."];
+        }
+
+        $fechasReservas = [];
+        $fechaInicial = new DateTime($fecha);
+
+        for ($i = 0; $i < $cantidad; $i++) {
+            $fechaReservada = clone $fechaInicial;
+
+            while ($fechaReservada->format('N') != 6) {
+                $fechaReservada->modify('+1 day');
+            }
+
+            $fechasReservas[] = $fechaReservada->format('Y-m-d');
+            $fechaInicial->modify('+1 week');
+        }
+
+        foreach ($fechasReservas as $fechaReserva) {
+            if (!$this->verificarDisponibilidad($salaId, $fechaReserva, $horaI, $horaF)) {
+                return [
+                    "status" => "error",
+                    "message" => "Ya existe una reserva en ese horario para la fecha $fechaReserva"
+                ];
+            }
+        }
+
+        $sql = "INSERT INTO reserva (fecha, hora_i, hora_f, observacion, fk_email, fk_id_e)
+                VALUES (?, ?, ?, '', ?, ?)";
+        $stmt = $this->conn->prepare($sql);
+
+        $this->conn->begin_transaction();
+
+        try {
+            foreach ($fechasReservas as $fechaReserva) {
+                $stmt->bind_param("ssssi", $fechaReserva, $horaI, $horaF, $email, $salaId);
+                if (!$stmt->execute()) {
+                    throw new Exception("Error al crear la agenda");
+                }
+            }
+
+            $this->conn->commit();
+            return ["status" => "success", "message" => "Agenda creada exitosamente"];
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            return [
+                "status" => "error",
+                "message" => "Error al crear la agenda",
+                "error" => $e->getMessage()
+            ];
+        }
+    }
+
     // Helper: calcular hora fin según limpieza
     public function calcularHoraFin($horaFin, $limpieza)
     {

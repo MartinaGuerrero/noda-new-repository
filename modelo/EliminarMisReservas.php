@@ -1,33 +1,27 @@
 <?php
-// Inicia la sesión si es necesario
 session_start();
 
-// Verifica que el ID de la Reserva se haya recibido correctamente
-if (isset($_POST['id'])) {
-    // Obtener el ID de la Reserva desde la solicitud POST
-    $id_reserva = $_POST['id'];
+require_once __DIR__ . '/../Controlador/conexion.php';
+require_once __DIR__ . '/ReservasModel.php';
 
-    // Incluir la conexión a la base de datos
-    require_once '../Controlador/conexion.php';  
+header('Content-Type: application/json');
 
-    // Luego, eliminar la Reserva de la tabla 'reserva'
-    $sql_reserva = "DELETE FROM reserva WHERE id_auto = ?";
-    if ($stmt_reserva = $conn->prepare($sql_reserva)) {
-        $stmt_reserva->bind_param("i", $id_reserva);
-        if ($stmt_reserva->execute()) {
-            echo "Reserva eliminada correctamente.";
-        } else {
-            echo "Error al eliminar la Reserva.";
-        }
-        $stmt_reserva->close();
-    } else {
-        echo "Error en la preparación de la consulta.";
-    }
-
-    // Cerrar la conexión a la base de datos
-    $conn->close();
-} else {
-    echo "No se recibió el ID de la Reserva.";
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(["status" => "error", "message" => "Método no permitido"]);
+    exit();
 }
 
+if (!isset($_SESSION['usuario'])) {
+    echo json_encode(["status" => "error", "message" => "Usuario no logueado"]);
+    exit();
+}
+
+$id = $_POST['id'] ?? $_POST['id_reserva'] ?? null;
+
+$model = new ReservasModel($conn);
+$resultado = $model->eliminarReserva($id);
+
+echo json_encode($resultado);
+
+$conn->close();
 ?>
