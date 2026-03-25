@@ -1,13 +1,13 @@
 <?php
-require_once __DIR__ . '/../Controlador/conexion.php';
-require_once __DIR__ . '/ReservasModel.php';
+require_once __DIR__ . '/../conexion.php';
+require_once __DIR__ . '/../../modelo/ReservasModel.php';
 
 header('Content-Type: application/json');
 
 $centro = $_GET['centro'] ?? 'secundaria';
 
 if (!in_array($centro, ['primaria', 'secundaria'], true)) {
-    echo json_encode(["status" => "error", "message" => "Centro inválido"]);
+    echo json_encode(["status" => "error", "message" => "Centro invalido"]);
     exit();
 }
 

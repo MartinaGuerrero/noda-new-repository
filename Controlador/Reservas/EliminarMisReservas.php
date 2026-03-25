@@ -1,13 +1,13 @@
 <?php
 session_start();
 
-require_once __DIR__ . '/../Controlador/conexion.php';
-require_once __DIR__ . '/ReservasModel.php';
+require_once __DIR__ . '/../conexion.php';
+require_once __DIR__ . '/../../modelo/ReservasModel.php';
 
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(["status" => "error", "message" => "Método no permitido"]);
+    echo json_encode(["status" => "error", "message" => "Metodo no permitido"]);
     exit();
 }
 

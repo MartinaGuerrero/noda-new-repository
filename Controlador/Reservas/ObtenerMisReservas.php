@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-require_once __DIR__ . '/../Controlador/conexion.php';
-require_once __DIR__ . '/ReservasModel.php';
+require_once __DIR__ . '/../conexion.php';
+require_once __DIR__ . '/../../modelo/ReservasModel.php';
 
 header('Content-Type: application/json');
 

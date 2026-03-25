@@ -156,7 +156,7 @@ function calendario(id) {
 
             // Obtener reservas de la base de datos
             $.ajax({
-                url: 'modelo/ObtenerReservaCalendario.php',
+                url: 'Controlador/Reservas/ObtenerReservaCalendario.php',
                 type: 'GET',
                 data: {
                     date: fullDate, id: salaId
@@ -287,7 +287,7 @@ function calendario(id) {
 
             // Realiza la solicitud AJAX para agregar la reserva
             $.ajax({
-                url: 'modelo/AgregarReservaDiaSemana.php',
+                url: 'Controlador/Reservas/AgregarReservaDiaSemana.php',
                 type: 'POST',
                 data: {
                     fecha: fecha,

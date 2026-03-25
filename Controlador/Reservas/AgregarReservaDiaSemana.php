@@ -1,11 +1,11 @@
 <?php
-require_once __DIR__ . '/../Controlador/conexion.php';
-require_once __DIR__ . '/ReservasModel.php';
+require_once __DIR__ . '/../conexion.php';
+require_once __DIR__ . '/../../modelo/ReservasModel.php';
 
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(["status" => "error", "message" => "Método de solicitud no permitido"]);
+    echo json_encode(["status" => "error", "message" => "Metodo de solicitud no permitido"]);
     exit();
 }
 

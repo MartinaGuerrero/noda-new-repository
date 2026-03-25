@@ -342,7 +342,7 @@ $(document).ready(function () {
                 let limpieza = $('#toggleSwitch').prop('checked');
 
                 $.ajax({
-                    url: 'modelo/AgregarReserva.php',
+                    url: 'Controlador/Reservas/AgregarReserva.php',
                     type: 'POST',
                     dataType: 'json',
                     data: {

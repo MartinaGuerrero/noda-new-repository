@@ -27,7 +27,7 @@ $(document).ready(function () {
 
     function cargarReservas() {
         $.ajax({
-            url: 'modelo/ObtenerReservas.php',
+            url: 'Controlador/Reservas/ObtenerReservas.php',
             type: 'GET',
             data: { centro: reservasCentro },
             dataType: 'json',
@@ -132,7 +132,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
 
         $.ajax({
-            url: 'modelo/EliminarReserva.php',
+            url: 'Controlador/Reservas/EliminarReserva.php',
             type: 'POST',
             dataType: 'json',
             data: { id_reserva: id },
@@ -176,7 +176,7 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: 'modelo/EditarReserva.php',
+            url: 'Controlador/Reservas/EditarReserva.php',
             method: 'POST',
             data: formData,
             dataType: 'json',
