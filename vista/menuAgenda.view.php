@@ -103,7 +103,9 @@ $cargo = $_SESSION['cargo'];
     </div>
 </div>
 
-
+    <script>
+        window.AGENDA_CENTRO = 'secundaria';
+    </script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="vista/js/script-menu-agenda/scriptSalas.js"></script>
     <script src="vista/js/script-menu-agenda/scriptCalendario.js"></script>

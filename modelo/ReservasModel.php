@@ -134,12 +134,20 @@ class ReservasModel
     // DELETE: Eliminar reserva (sin permisos aún)
     public function eliminarReserva($id)
     {
+        if (!$id) {
+            return ["status" => "error", "message" => "ID de reserva invalido"];
+        }
+
         $sql = "DELETE FROM reserva WHERE id_auto = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("i", $id);
 
         if ($stmt->execute()) {
-            return ["status" => "success", "message" => "Reserva eliminada"];
+            if ($stmt->affected_rows > 0) {
+                return ["status" => "success", "message" => "Reserva eliminada"];
+            }
+
+            return ["status" => "error", "message" => "No se encontro la reserva"];
         }
 
         return ["status" => "error", "message" => "Error al eliminar la reserva"];

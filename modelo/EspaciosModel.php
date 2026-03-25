@@ -166,7 +166,7 @@ public function eliminarSala($id, $centro)
         $sql = "DELETE FROM espacio WHERE id_espacio = ? AND centro = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("is", $id, $centro);
-
+ 
         if (!$stmt->execute()) {
             throw new Exception("Error al eliminar sala");
         }

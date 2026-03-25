@@ -85,6 +85,9 @@ require_once 'menuNavegacion.viewP.php';
     </div>
 </div>
 
+    <script>
+        window.RESERVAS_CENTRO = 'primaria';
+    </script>
     <script src="vista/js/script-misReservas/scriptMisReservas.js"></script>
     <script src="vista/js/script-misReservas/buscador.js"></script>
 </body>

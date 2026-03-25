@@ -117,9 +117,12 @@ $cargo = $_SESSION['cargo'];
     </div>
 </div>
 
+    <script>
+        window.RESERVAS_CENTRO = 'primaria';
+    </script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="vista/js/script-reservas/buscador.js"></script>
-    <script src="vista/js/script-reservas/scriptResevasP.js"></script>
+    <script src="vista/js/script-reservas/scriptResevas.js"></script>
     <script src="vista/js/script-reservas/excelP.js"></script>
     
 

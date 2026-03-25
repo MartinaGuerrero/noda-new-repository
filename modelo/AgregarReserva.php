@@ -1,9 +1,18 @@
 <?php
-require_once '../Controlador/conexion.php';
-require_once 'ReservasModel.php';
+require_once __DIR__ . '/../Controlador/conexion.php';
+require_once __DIR__ . '/ReservasModel.php';
+
+header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(["status" => "error", "message" => "Método no permitido"]);
+    echo json_encode(["status" => "error", "message" => "Metodo no permitido"]);
+    exit();
+}
+
+$centro = $_POST['centro'] ?? 'secundaria';
+
+if (!in_array($centro, ['primaria', 'secundaria'], true)) {
+    echo json_encode(["status" => "error", "message" => "Centro invalido"]);
     exit();
 }
 
@@ -19,11 +28,9 @@ $data = [
 ];
 
 $model = new ReservasModel($conn);
-$resultado = $model->crearReserva($data, 'secundaria');
+$resultado = $model->crearReserva($data, $centro);
 
-header('Content-Type: application/json');
 echo json_encode($resultado);
 
 $conn->close();
 ?>
-

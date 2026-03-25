@@ -1,15 +1,25 @@
 <?php
-require_once '../Controlador/conexion.php';
-require_once 'ReservasModel.php';
-
 session_start();
+
+require_once __DIR__ . '/../Controlador/conexion.php';
+require_once __DIR__ . '/ReservasModel.php';
+
+header('Content-Type: application/json');
+
 if (!isset($_SESSION['usuario']) || ($_SESSION['cargo'] ?? '') !== 'operativo') {
     echo json_encode(["status" => "error", "message" => "No autorizado"]);
     exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(["status" => "error", "message" => "Método no permitido"]);
+    echo json_encode(["status" => "error", "message" => "Metodo no permitido"]);
+    exit();
+}
+
+$centro = $_POST['centro'] ?? 'secundaria';
+
+if (!in_array($centro, ['primaria', 'secundaria'], true)) {
+    echo json_encode(["status" => "error", "message" => "Centro invalido"]);
     exit();
 }
 
@@ -20,14 +30,13 @@ $data = [
     'hora_fin' => $_POST['hora_fin'] ?? null,
     'insumo' => $_POST['insumo'] ?? null,
     'sala' => $_POST['sala'] ?? null,
-    'observacion' => $_POST['observacion'] ?? null,
+    'observacion' => $_POST['observacion'] ?? ($_POST['observaciones'] ?? null),
     'limpieza' => $_POST['limpieza'] ?? null,
 ];
 
 $model = new ReservasModel($conn);
-$resultado = $model->editarReserva($data, 'secundaria');
+$resultado = $model->editarReserva($data, $centro);
 
-header('Content-Type: application/json');
 echo json_encode($resultado);
 
 $conn->close();

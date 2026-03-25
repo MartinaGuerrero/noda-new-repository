@@ -1,4 +1,8 @@
+const agendaCentro = window.AGENDA_CENTRO || 'secundaria';
+
 $(document).ready(function () {
+    let userCargo = '';
+    let usuario = '';
 
     function mostrarAlerta(mensaje) {
         const msg = `
@@ -12,22 +16,57 @@ $(document).ready(function () {
         `;
 
         $('body').append(msg);
+        $('.alert').removeClass('hide').addClass('show showAlert');
 
-        // Mostrar y ocultar la alerta de éxito
-        $('.alert').removeClass("hide").addClass("show showAlert");
         setTimeout(function () {
-            $('.alert').removeClass("show").addClass("hide");
+            $('.alert').removeClass('show').addClass('hide');
         }, 5000);
 
         $('.close-btn').click(function () {
-            $('.alert').removeClass("show").addClass("hide");
+            $('.alert').removeClass('show').addClass('hide');
         });
     }
 
-    let userCargo = '';
-    let usuario = '';
+    function cargarSalas() {
+        $.ajax({
+            url: 'modelo/ObtenerSalas.php',
+            type: 'GET',
+            data: { centro: agendaCentro },
+            dataType: 'json',
+            success: function (data) {
+                $('.ContenedorSalas').empty();
 
-    // Obtener la carga y el email del usuario a través de la sesión
+                if (!Array.isArray(data) || data.length === 0) {
+                    $('.ContenedorSalas').append('<p class="mensaje-salas">No hay salas disponibles en este momento.</p>');
+                    return;
+                }
+
+                data.forEach(function (sala) {
+                    let recursos = sala.recursos.length > 0 ? sala.recursos.join(', ') : 'Sin recursos';
+                    agregarSala(sala.id, sala.nombre, sala.capacidad, recursos, sala.imagen);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Error al obtener las salas:', error);
+            }
+        });
+    }
+
+    function actualizarVisibilidadFormulario() {
+        $('#formularioAgregarSala').hide();
+        $('#EliminarSala').hide();
+        $('#formularioEditarSala').hide();
+    }
+
+    function obtenerRecursosComoArray(recursos) {
+        return recursos
+            .split(',')
+            .map(function (recurso) {
+                return recurso.trim();
+            })
+            .filter(Boolean);
+    }
+
     $.ajax({
         url: 'Controlador/session.php',
         type: 'GET',
@@ -35,49 +74,29 @@ $(document).ready(function () {
             if (typeof response === 'string') {
                 response = JSON.parse(response);
             }
+
             userCargo = response.cargo;
             usuario = response.usuario;
-            console.log(userCargo);
+            cargarSalas();
         },
         error: function (xhr, status, error) {
             console.error('Error en la solicitud:', error);
+            cargarSalas();
         }
     });
 
-    // Obtener las salas disponibles
-    $.ajax({
-        url: 'modelo/ObtenerSalas.php',
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            console.log('Respuesta del servidor:', data);
-
-            if (data.length === 0) {
-                $('.ContenedorSalas').append('<p class="mensaje-salas">No hay salas disponibles en este momento.</p>');
-            } else {
-                data.forEach(function (sala) {
-                    let recursos = sala.recursos.length > 0 ? sala.recursos.join(', ') : 'Sin recursos';
-                    agregarSala(sala.id, sala.nombre, sala.capacidad, recursos, sala.imagen);
-                });
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error('Error al obtener las salas:', error);
-        }
-    });
-
-    // Lógica del buscador
     document.getElementById('buscar').addEventListener('keyup', function () {
         let query = this.value.toLowerCase();
-        let reservas = document.querySelectorAll('.Sala');
-        reservas.forEach(function (reserva) {
-            let textoReserva = reserva.innerText.toLowerCase();
-            reserva.style.display = textoReserva.includes(query) ? 'flex' : 'none';
+        let salas = document.querySelectorAll('.Sala');
+
+        salas.forEach(function (sala) {
+            let textoSala = sala.innerText.toLowerCase();
+            sala.style.display = textoSala.includes(query) ? 'flex' : 'none';
         });
     });
 
-    // Manejar formulario de agregar sala
-    $('#formularioAgregarSala').hide();
+    actualizarVisibilidadFormulario();
+
     $('#btnAgregarSala').on('click', function () {
         $('#formularioAgregarSala').fadeIn();
     });
@@ -88,6 +107,7 @@ $(document).ready(function () {
 
     $('#btnGuardarSala').on('click', function () {
         let formData = new FormData($('#formAgregarSala')[0]);
+        formData.append('centro', agendaCentro);
 
         $.ajax({
             url: 'modelo/AgregarSala.php',
@@ -95,21 +115,18 @@ $(document).ready(function () {
             data: formData,
             contentType: false,
             processData: false,
+            dataType: 'json',
             success: function (response) {
-                console.log(response);
-                let sala = JSON.parse(response);
-                agregarSala(sala.id, sala.nombre, sala.capacidad, sala.recursos, sala.imagen);
-                
-                $('.mensaje-salas').remove();
-                
-                $('#formularioAgregarSala').fadeOut();
-                $('#formAgregarSala')[0].reset();
+                mostrarAlerta(response.message || 'Sala agregada correctamente');
+                if (response.status === 'success') {
+                    $('.mensaje-salas').remove();
+                    $('#formularioAgregarSala').fadeOut();
+                    $('#formAgregarSala')[0].reset();
+                    cargarSalas();
+                }
             }
         });
     });
-
-    // Eliminar sala
-    $('#EliminarSala').hide();
 
     $(document).on('click', '.btnEliminar', function () {
         let id = $(this).data('id');
@@ -123,28 +140,18 @@ $(document).ready(function () {
 
     $('#btnEliminarSala').on('click', function () {
         let id = $(this).data('id');
+
         $.ajax({
             url: 'modelo/EliminarSala.php',
             type: 'POST',
-            data: { id: id },
+            dataType: 'json',
+            data: { id: id, centro: agendaCentro },
             success: function (response) {
-                console.log("Respuesta del servidor:", response); // Log para depuración
-                if (response.includes("No se puede eliminar la sala")) {
-                    mostrarAlerta('No se puede eliminar la sala porque tiene reservas asociadas.');
-                } else if (response.includes("Error al eliminar la sala")) {
-                    mostrarAlerta('Error al eliminar la sala.');
-                } else if (response.includes("Sala y recursos asociados eliminados correctamente.")) {
-                    $(`#sala-${id}`).remove();
-                    mostrarAlerta('Sala eliminada exitosamente');
-    
-                    // Verificar si no hay más salas
-                    if ($('.Sala').length === 0) {
-                        $('.ContenedorSalas').append('<p class="mensaje-salas">No hay salas disponibles en este momento.</p>');
-                    }
-                } else {
-                    mostrarAlerta('Respuesta inesperada del servidor.');
-                }
+                mostrarAlerta(response.message || 'Operacion completada');
                 $('#EliminarSala').fadeOut();
+                if (response.status === 'success') {
+                    cargarSalas();
+                }
             },
             error: function (xhr, status, error) {
                 console.error('Error al eliminar la sala:', error);
@@ -153,20 +160,14 @@ $(document).ready(function () {
         });
     });
 
-    // Editar sala
-    $('#formularioEditarSala').hide();
     $(document).on('click', '.btnEditar', function () {
         let salaId = $(this).data('id');
+        let card = $('#sala-' + salaId);
+
         $('#btnEditarSala').data('id', salaId);
-
-        let nombreSala = $(`#sala-${salaId} .nombreSala`).text();
-        let capacidadSala = $(`#sala-${salaId} .capacidadSala`).text();
-        let recursosSala = $(`#sala-${salaId} .recursosSala`).text();
-
-        $('#nombreSalaEditar').val(nombreSala);
-        $('#capacidadSalaEditar').val(capacidadSala);
-        $('#recursosSalaEditar').val(recursosSala);
-
+        $('#nombreSalaEditar').val(card.find('.nombreSala').text().trim());
+        $('#capacidadSalaEditar').val(card.find('.capacidadSala').text().trim());
+        $('#recursosSalaEditar').val(card.find('.recursosSala').text().trim());
         $('#formularioEditarSala').fadeIn();
     });
 
@@ -182,19 +183,20 @@ $(document).ready(function () {
         let imagenInput = $('#imagenEditar')[0];
 
         if (!nombre || !capacidad || !recursos) {
-            alert("Por favor, completa todos los campos.");
+            alert('Por favor, completa todos los campos.');
             return;
         }
 
         let formData = new FormData();
         if (imagenInput.files.length > 0) {
-            formData.append('imagenEditar', imagenInput.files[0]);
+            formData.append('imagen', imagenInput.files[0]);
         }
 
-        formData.append('salaId', salaId);
-        formData.append('nombreEditar', nombre);
-        formData.append('capacidadEditar', capacidad);
-        formData.append('recursosEditar', recursos);
+        formData.append('id', salaId);
+        formData.append('nombre', nombre);
+        formData.append('capacidad', capacidad);
+        formData.append('recursos', recursos);
+        formData.append('centro', agendaCentro);
 
         $.ajax({
             url: 'modelo/EditarSala.php',
@@ -202,129 +204,101 @@ $(document).ready(function () {
             data: formData,
             processData: false,
             contentType: false,
+            dataType: 'json',
             success: function (response) {
-                console.log("Respuesta del servidor:", response);
-                try {
-                    var data = typeof response === "object" ? response : JSON.parse(response);
-                    if (data.error) {
-                        alert("Error al editar la sala: " + data.error);
-                    } else {
-                        mostrarAlerta("Sala actualizada exitosamente");
-                        $('#formularioEditarSala').fadeOut();
-                    }
-                } catch (error) {
-                    console.error("Error al parsear la respuesta JSON: ", error);
-                    alert("Hubo un problema al procesar la respuesta del servidor.");
+                mostrarAlerta(response.message || 'Sala actualizada exitosamente');
+                if (response.status === 'success') {
+                    $('#formularioEditarSala').fadeOut();
+                    cargarSalas();
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.error("Error en la petición AJAX: ", textStatus, errorThrown);
+                console.error('Error en la peticion AJAX: ', textStatus, errorThrown);
             }
         });
     });
 
-    //Editar-----------------------------------------------------------------
-
-
-    // Función para agregar una sala al DOM
     function agregarSala(id, nombre, capacidad, recursos, imagen) {
         let salaHTML = `
-    <div class="Sala" id="sala-${id}">  
-        <div class="SalaInfo">
-            <img src="${imagen}" alt="ImagenSala" class="SalaImagen">
-            <div>
-                <p>Nombre de la sala: <span>${nombre}</span></p>
-                <p>Capacidad de personas: <span>${capacidad}</span></p>
-                <p>Recursos de sala: <span>${recursos}</span></p>
+        <div class="Sala" id="sala-${id}">
+            <div class="SalaInfo">
+                <img src="${imagen}" alt="ImagenSala" class="SalaImagen">
+                <div>
+                    <p>Nombre de la sala: <span class="nombreSala">${nombre}</span></p>
+                    <p>Capacidad de personas: <span class="capacidadSala">${capacidad}</span></p>
+                    <p>Recursos de sala: <span class="recursosSala">${recursos}</span></p>
+                </div>
             </div>
-        </div>
-        <button class="Agendar" data-id="${id}">Agendar</button>
-        <div class="Tapar"></div>`;
-        // Mostrar botones de eliminar y editar solo si el usuario es 'operativo'
+            <button class="Agendar" data-id="${id}">Agendar</button>
+            <div class="Tapar"></div>`;
+
         if (userCargo === 'operativo') {
             salaHTML += `
-        <div class="btnEliminar Eliminar" data-id="${id}">
-            <img src="vista/img/eliminar.png" alt="eliminar" id="Eliminar">
-        </div>
-        <div class="btnEditar Editar" data-id="${id}">
-            <img src="vista/img/lapiz.png" alt="editar" id="Editar">
-        </div>`;
+            <div class="btnEliminar Eliminar" data-id="${id}">
+                <img src="vista/img/eliminar.png" alt="eliminar" id="Eliminar">
+            </div>
+            <div class="btnEditar Editar" data-id="${id}">
+                <img src="vista/img/lapiz.png" alt="editar" id="Editar">
+            </div>`;
         }
 
-        salaHTML += `</div>`;  // Cierra el div de Sala
-
+        salaHTML += `</div>`;
         $('.ContenedorSalas').append(salaHTML);
     }
-
 
     $(document).off('click', '.Agendar').on('click', '.Agendar', function () {
         let salaId = $(this).data('id');
         let salaImagen = $(this).parent().find('.SalaImagen').attr('src');
-        console.log("Agendar sala con ID: " + salaId);
 
-        // Si ya existe un formulario visible, solo lo mostramos, no creamos uno nuevo
         if ($('.todo').length === 0) {
             $('.ContenedorSalas').append(`
                 <div class="todo">
                     <div class="cerrar"><h1>x</h1></div>
                     <div class="container">
-                        <!-- FORMULARIO -->
                         <div class="formularioDiv">
-                            <!-- Imagen de salones -->
                             <div class="img">
                                 <img src="${salaImagen}" alt="" class="salon">
                             </div>
                             <div>
-                        
-                                <!-- Creación de formulario -->
                                 <form method="post" enctype="multipart/form-data">
-                                    <!-- Input de fecha -->
                                     <label for="fechaYHora" id="labelFechaYHora" class="label">Fecha y hora</label> <br>
                                     <input type="date" name="fecha" class="inputForm" id="fecha">
-                                    <!-- Input de hora -->
                                     <input type="time" name="horaI" class="inputForm" id="horaI">
-                                       <div class="divI" id="divInfoHoraI">
-                                             <p class="i" id="infoDeHoraInicio">i</p> 
-                                        </div>
-                                       <input type="time" name="horaF" class="inputForm" id="horaF">
-                                        <div class="divI" id="divInfoHoraF">
-                                            <p class="i" id="infoDeHoraFin">i</p> 
-                                        </div>
-                                    <!-- Input de insumos -->
+                                    <div class="divI" id="divInfoHoraI">
+                                        <p class="i" id="infoDeHoraInicio">i</p>
+                                    </div>
+                                    <input type="time" name="horaF" class="inputForm" id="horaF">
+                                    <div class="divI" id="divInfoHoraF">
+                                        <p class="i" id="infoDeHoraFin">i</p>
+                                    </div>
                                     <label for="insumos" class="label">Insumos</label>
                                     <div class="divI" id="divInfoInsumos">
-                                        <p class="i" id="infoDeInsumos">i</p> 
+                                        <p class="i" id="infoDeInsumos">i</p>
                                     </div>
                                     <label for="observaciones" class="label" id="lObs">Observaciones</label>
                                     <div class="divI" id="divInfoObservaciones">
-                                     <p class="i" id="infoDeObservaciones">i</p> 
+                                        <p class="i" id="infoDeObservaciones">i</p>
                                     </div>
                                     <textarea name="insumos" class="inputForm" id="insumos"></textarea>
                                     <textarea name="observaciones" class="inputForm" id="observaciones"></textarea>
-                                    <!-- Input de limpieza -->
                                     <label for="serLimpieza" class="label" id="servLimpieza">Servicio de limpieza</label>
-                                     <div class="divI" id="divInfoLimpieza">
-                                   <p class="i" id="infoDeLimpieza">i</p> 
+                                    <div class="divI" id="divInfoLimpieza">
+                                        <p class="i" id="infoDeLimpieza">i</p>
                                     </div>
                                     <label class="switch">
                                         <input type="checkbox" id="toggleSwitch">
                                         <span class="slider"></span>
                                     </label>
-                                    <!-- Botón de agendar -->
                                     <button type="button" class="agendar" id="agendar" name="Agendar">Agendar</button>
                                 </form>
                             </div>
                         </div>
-                        <!-- CALENDARIO -->
                         <div class="calendarioDiv">
-                            <!-- Vistas del calendario -->
                             <div class="vistas">
-                                <button class="vista" id="diario"><h1>Día</h1></button>
+                                <button class="vista" id="diario"><h1>Dia</h1></button>
                                 <button class="vista" id="semanal"><h1>Semana</h1></button>
                                 <button class="vista" id="mensual"><h1>Mes</h1></button>
                             </div>
-                            
-                            <!-- Control de días del calendario -->
                             <div class="row align-items-start" id="dias">
                                 <div class="col">
                                     <div class="retroceder">
@@ -333,9 +307,7 @@ $(document).ready(function () {
                                 </div>
                                 <div class="col">
                                     <div class="info">
-                                        <!-- Día -->
-                                        <h1 class="numDia-mes">24</h1>  
-                                        <!-- Mes -->
+                                        <h1 class="numDia-mes">24</h1>
                                         <h3 class="mes-anio">enero</h3>
                                     </div>
                                 </div>
@@ -345,8 +317,6 @@ $(document).ready(function () {
                                     </div>
                                 </div>
                             </div>
-    
-                            <!-- Creación del calendario -->
                             <div class="calendario">
                                 <div class="diasSemana">
                                     <div class="diaSemana" id="do"><h1>D</h1></div>
@@ -363,7 +333,6 @@ $(document).ready(function () {
                 </div>
             `);
 
-            // Manejo del clic para agendar
             $('#agendar').click(function () {
                 let fecha = $('#fecha').val();
                 let horaI = $('#horaI').val();
@@ -371,13 +340,11 @@ $(document).ready(function () {
                 let insumos = $('#insumos').val();
                 let observaciones = $('#observaciones').val();
                 let limpieza = $('#toggleSwitch').prop('checked');
-                console.log(limpieza);
-                let email = usuario;
-                let sala = salaId;
 
                 $.ajax({
                     url: 'modelo/AgregarReserva.php',
                     type: 'POST',
+                    dataType: 'json',
                     data: {
                         fecha: fecha,
                         horaI: horaI,
@@ -385,92 +352,52 @@ $(document).ready(function () {
                         insumos: insumos,
                         observaciones: observaciones,
                         limpieza: limpieza,
-                        email: email,
-                        sala: sala
+                        email: usuario,
+                        sala: salaId,
+                        centro: agendaCentro
                     },
-                    success: function (data) {
-                        // Reserva realizada con éxito
-                        const msg = `
-                <div class="alert show">
-                    <span class="fa-solid fa-check"></span>
-                    <span class="msg">Sala reservada exitosamente</span>
-                    <span class="close-btn">
-                        <span class="fas fa-times"></span>
-                    </span>
-                </div>
-                `;
+                    success: function (response) {
+                        mostrarAlerta(response.message || 'Sala reservada exitosamente');
 
-                        $('body').append(msg);
-
-                        // Mostrar y ocultar la alerta de éxito
-                        $('.alert').removeClass("hide");
-                        $('.alert').addClass("show");
-                        $('.alert').addClass("showAlert");
-                        setTimeout(function () {
-                            $('.alert').removeClass("show");
-                            $('.alert').addClass("hide");
-                        }, 5000);
-
-                        $('.close-btn').click(function () {
-                            $('.alert').removeClass("show");
-                            $('.alert').addClass("hide");
-                        });
-
-                        // Limpiar los valores del formulario después de agendar
-                        $('#fecha').val('');
-                        $('#horaI').val('');
-                        $('#horaF').val('');
-                        $('#insumos').val('');
-                        $('#observaciones').val('');
-                        $('#toggleSwitch').prop('checked', false);
-
-                        // Ocultar el formulario
-                        $('.todo').hide();
+                        if (response.status === 'success') {
+                            $('#fecha').val('');
+                            $('#horaI').val('');
+                            $('#horaF').val('');
+                            $('#insumos').val('');
+                            $('#observaciones').val('');
+                            $('#toggleSwitch').prop('checked', false);
+                            $('.todo').hide();
+                        }
                     }
                 });
             });
 
-            // Cargar el calendario para la sala seleccionada
             calendario(salaId);
         } else {
-            // Limpiar los valores del formulario antes de mostrarlo nuevamente
             $('#fecha').val('');
             $('#horaI').val('');
             $('#horaF').val('');
             $('#insumos').val('');
             $('#toggleSwitch').prop('checked', false);
-
-            // Mostrar el formulario si ya existe
             $('.todo').show();
         }
     });
 
-    // mostrar info de campos 
-    $('#divInfoHoraI').click(function () {
-        console.log("click");
-    });
-
-    $('#divInfoHoraF').click(function () {
-        console.log("click");
-    });
-
-    if (window.matchMedia("(max-width: 993px)").matches) {
-        // Delegación de eventos para mostrar info de campos
+    if (window.matchMedia('(max-width: 993px)').matches) {
         $(document).on('click', '#divInfoHoraI', function () {
             $('.container').append(`
                 <div class="alertInfo" id="alertInfoHoraI">
                     <p>Ingrese la hora de inicio de su reserva.</p>
-                </div>    
-            `)
+                </div>
+            `);
         });
 
         $(document).on('click', '#divInfoHoraF', function () {
             $('.container').append(`
                 <div class="alertInfo" id="alertInfoHoraF">
                     <p>Ingrese la hora de fin de su reserva.</p>
-                </div>    
-            `)
-
+                </div>
+            `);
         });
 
         $(document).on('click', '#divInfoInsumos', function () {
@@ -478,17 +405,17 @@ $(document).ready(function () {
                 <div class="alertInfo" id="alertInfoInsumos">
                     <p>Ingrese los insumos que necesita para su reserva.</p>
                     <p>Ej: 10 botellas de agua, merienda, etc.</p>
-                </div>    
-            `)
+                </div>
+            `);
         });
 
         $(document).on('click', '#divInfoObservaciones', function () {
             $('.container').append(`
                 <div class="alertInfo" id="alertInfoObservaciones">
                     <p>Ingrese las observaciones que considere necesarias para su reserva.</p>
-                    <p>Ej: decoración, requerimientos especiales, etc.</p>
-                </div> 
-            `)
+                    <p>Ej: decoracion, requerimientos especiales, etc.</p>
+                </div>
+            `);
         });
 
         $(document).on('click', '#divInfoLimpieza', function () {
@@ -496,63 +423,59 @@ $(document).ready(function () {
                 <div class="alertInfo" id="alertInfoLimpieza">
                     <p>Seleccione si desea o no servicio de limpieza luego de su reserva.</p>
                     <p>Ten en cuenta la suciedad del espacio luego de su uso.</p>
-                </div> 
-            `)
+                </div>
+            `);
         });
-
 
         $(document).on('click', function (event) {
             if (!$(event.target).closest('.alertInfo, .divI').length) {
                 $('.alertInfo').remove();
             }
         });
-
     } else {
-
         $(document).on('mouseenter', '#divInfoHoraI', function () {
             $('.container').append(`
-            <div class="alertInfo" id="alertInfoHoraI">
-                <p>Ingrese la hora de inicio de su reserva.</p>
-            </div>    
-        `);
+                <div class="alertInfo" id="alertInfoHoraI">
+                    <p>Ingrese la hora de inicio de su reserva.</p>
+                </div>
+            `);
         });
 
         $(document).on('mouseenter', '#divInfoHoraF', function () {
             $('.container').append(`
-            <div class="alertInfo" id="alertInfoHoraF">
-                <p>Ingrese la hora de fin de su reserva.</p>
-            </div>    
-        `);
+                <div class="alertInfo" id="alertInfoHoraF">
+                    <p>Ingrese la hora de fin de su reserva.</p>
+                </div>
+            `);
         });
 
         $(document).on('mouseenter', '#divInfoInsumos', function () {
             $('.container').append(`
-            <div class="alertInfo" id="alertInfoInsumos">
-                <p>Ingrese los insumos que necesita para su reserva.</p>
-                <p>Ej: 10 botellas de agua, merienda, etc.</p>
-            </div>    
-        `);
+                <div class="alertInfo" id="alertInfoInsumos">
+                    <p>Ingrese los insumos que necesita para su reserva.</p>
+                    <p>Ej: 10 botellas de agua, merienda, etc.</p>
+                </div>
+            `);
         });
 
         $(document).on('mouseenter', '#divInfoObservaciones', function () {
             $('.container').append(`
-            <div class="alertInfo" id="alertInfoObservaciones">
-                <p>Ingrese las observaciones que considere necesarias para su reserva.</p>
-                <p>Ej: decoración, requerimientos especiales, etc.</p>
-            </div> 
-        `);
+                <div class="alertInfo" id="alertInfoObservaciones">
+                    <p>Ingrese las observaciones que considere necesarias para su reserva.</p>
+                    <p>Ej: decoracion, requerimientos especiales, etc.</p>
+                </div>
+            `);
         });
 
         $(document).on('mouseenter', '#divInfoLimpieza', function () {
             $('.container').append(`
-            <div class="alertInfo" id="alertInfoLimpieza">
-                <p>Seleccione si desea o no servicio de limpieza luego de su reserva.</p>
-                <p>Ten en cuenta la suciedad del espacio luego de su uso.</p>
-            </div> 
-        `);
+                <div class="alertInfo" id="alertInfoLimpieza">
+                    <p>Seleccione si desea o no servicio de limpieza luego de su reserva.</p>
+                    <p>Ten en cuenta la suciedad del espacio luego de su uso.</p>
+                </div>
+            `);
         });
 
-        // Ocultar información al quitar el mouse
         $(document).on('mouseleave', '#divInfoHoraI', function () {
             $('#alertInfoHoraI').remove();
         });
@@ -574,6 +497,3 @@ $(document).ready(function () {
         });
     }
 });
-
-
-
