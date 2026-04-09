@@ -42,7 +42,7 @@ $('#btnCerrarEliminar').on('click', function () {
 $('#btnEliminarMisReserva').on('click', function () {
     let id = $(this).data('id');
     $.ajax({
-        url: 'Controlador/Reservas/EliminarMisReservas.php',
+        url: 'modelo/EliminarMisReservas.php',
         type: 'POST',
         dataType: 'json',
         data: { id_reserva: id },
@@ -109,7 +109,7 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: 'Controlador/Reservas/EditarMisReservas.php',
+            url: 'modelo/EditarMisReservas.php',
             method: 'POST',
             data: formData,
             dataType: 'json',
@@ -130,7 +130,7 @@ $(document).ready(function () {
 
 function fetchReservas() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'Controlador/Reservas/ObtenerMisReservas.php?centro=' + encodeURIComponent(misReservasCentro), true);
+    xhr.open('GET', 'modelo/ObtenerMisReservas.php?centro=' + encodeURIComponent(misReservasCentro), true);
 
     xhr.onload = function () {
         if (xhr.status === 200) {

@@ -29,7 +29,7 @@ $(document).ready(function () {
 
     function cargarSalas() {
         $.ajax({
-            url: 'modelo/ObtenerSalas.php',
+            url: 'Controlador/Salas/ObtenerSalas.php',
             type: 'GET',
             data: { centro: agendaCentro },
             dataType: 'json',
@@ -110,7 +110,7 @@ $(document).ready(function () {
         formData.append('centro', agendaCentro);
 
         $.ajax({
-            url: 'modelo/AgregarSala.php',
+            url: 'Controlador/Salas/AgregarSala.php',
             type: 'POST',
             data: formData,
             contentType: false,
@@ -142,7 +142,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
 
         $.ajax({
-            url: 'modelo/EliminarSala.php',
+            url: 'Controlador/Salas/EliminarSala.php',
             type: 'POST',
             dataType: 'json',
             data: { id: id, centro: agendaCentro },
@@ -199,7 +199,7 @@ $(document).ready(function () {
         formData.append('centro', agendaCentro);
 
         $.ajax({
-            url: 'modelo/EditarSala.php',
+            url: 'Controlador/Salas/EditarSala.php',
             type: 'POST',
             data: formData,
             processData: false,
