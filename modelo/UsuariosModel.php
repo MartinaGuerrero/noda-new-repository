@@ -27,12 +27,28 @@ class UsuariosModel
         $email = $data['email'] ?? '';
         $cargo = $data['cargo'] ?? '';
 
-        if (!$nombre || !$apellido || !$email || !$cargo) {
-            return ["status" => "error", "message" => "Todos los campos son obligatorios"];
+        if (!$email) {
+            return ["status" => "error", "message" => "El email es obligatorio"];
         }
 
         if ($this->emailExists($email)) {
-            return ["status" => "error", "message" => "El email ya está en uso"];
+            return ["status" => "error", "message" => "El email ya esta en uso"];
+        }
+
+        if (!$nombre && !$apellido && !$cargo) {
+            $sql = "INSERT INTO usuario (email) VALUES (?)";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("s", $email);
+
+            if ($stmt->execute()) {
+                return ["status" => "success", "message" => "Usuario agregado correctamente"];
+            }
+
+            return ["status" => "error", "message" => "Error al agregar usuario"];
+        }
+
+        if (!$nombre || !$apellido || !$cargo) {
+            return ["status" => "error", "message" => "Todos los campos son obligatorios"];
         }
 
         $passwordHash = $this->defaultHash;
@@ -101,7 +117,7 @@ class UsuariosModel
         }
 
         if ($email !== $emailOriginal && $this->emailExists($email)) {
-            return ['status' => 'error', 'message' => 'El email ya está en uso'];
+            return ['status' => 'error', 'message' => 'El email ya esta en uso'];
         }
 
         $passwordHash = $this->defaultHash;
@@ -156,7 +172,7 @@ class UsuariosModel
     public function eliminarUsuario($email)
     {
         if (!$email) {
-            return ['status' => 'error', 'message' => 'Se requiere un correo electrónico para eliminar el usuario.'];
+            return ['status' => 'error', 'message' => 'Se requiere un correo electronico para eliminar el usuario.'];
         }
 
         $sqlCheck = "SELECT COUNT(*) AS total FROM reserva WHERE fk_email = ?";
@@ -178,9 +194,10 @@ class UsuariosModel
             if ($stmtDelete->affected_rows > 0) {
                 return ['status' => 'success', 'message' => 'Usuario eliminado correctamente.'];
             }
-            return ['status' => 'error', 'message' => 'No se encontró ningún usuario con ese correo electrónico.'];
+            return ['status' => 'error', 'message' => 'No se encontro ningun usuario con ese correo electronico.'];
         }
 
-        return ['status' => 'error', 'message' => 'Error al ejecutar la eliminación.'];
+        return ['status' => 'error', 'message' => 'Error al ejecutar la eliminacion.'];
     }
 }
+?>

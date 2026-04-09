@@ -2,7 +2,7 @@ $(document).ready(function() {
     // Función para obtener todos los usuarios y cargos
     function getAll() {
         $.ajax({
-            url: 'modelo/ObtenerUsuario.php',
+            url: 'Controlador/Usuarios/ObtenerUsuario.php',
             type: 'GET',
             dataType: 'json',
             data: { res: 1 },
@@ -187,7 +187,7 @@ $(document).ready(function() {
     // Función para obtener usuarios no registrados
     function NoRegistrados() {
         $.ajax({
-            url: 'modelo/ObtenerUsuario.php',
+            url: 'Controlador/Usuarios/ObtenerUsuario.php',
             type: 'GET',
             dataType: 'json',
             data: { res: 1 },
@@ -197,14 +197,20 @@ $(document).ready(function() {
                 
                 if (usuariosFiltrados.length > 0) {
                     usuariosFiltrados.forEach(res => {
+                        const nombreMostrado = (res.nombre && res.apellido)
+                            ? `${res.nombre} ${res.apellido}`
+                            : 'Usuario sin registrar';
+                        const cargoMostrado = res.cargo && res.cargo.trim() !== ''
+                            ? res.cargo
+                            : 'Sin cargo';
                         ret += `
                             <div class="card">
                                 <div id="img">
                                     <span class="iniciales">${res.iniciales}</span>
                                 </div>
                                 <div id="info">
-                                    <p class="texto">${res.nombre} ${res.apellido}</p>
-                                    <p class="texto">${res.cargo}</p>
+                                    <p class="texto">${nombreMostrado}</p>
+                                    <p class="texto">${cargoMostrado}</p>
                                     <p class="texto">${res.email}</p>
                                 </div>
                                 <div id="botones">
@@ -236,7 +242,7 @@ $(document).ready(function() {
         let terminoBusqueda = $(this).val();
         if (terminoBusqueda.length > 0) {
             $.ajax({
-                url: 'modelo/ObtenerUsuario.php',
+                url: 'Controlador/Usuarios/ObtenerUsuario.php',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -292,21 +298,17 @@ $(document).ready(function() {
     let mostrandoNoRegistrados = false;
     $(document).on('click', '.NoRegistrados', function() {
         const $this = $(this);
-        if ($this.text() === 'Usuarios no registrados') {
-            $this.text('Usuarios registrados');
-            mostrandoNoRegistrados = false;
-            $('#data').fadeOut(300, function() {
-                getAll(); // Cargar usuarios registrados
-                $('#data').fadeIn(300);
-            });
-        } else {
-            $this.text('Usuarios no registrados');
-            mostrandoNoRegistrados = true;
-            $('#data').fadeOut(300, function() {
-                NoRegistrados(); // Cargar usuarios no registrados
-                $('#data').fadeIn(300);
-            });
-        }
+        mostrandoNoRegistrados = !mostrandoNoRegistrados;
+        $this.text(mostrandoNoRegistrados ? 'Usuarios registrados' : 'Usuarios no registrados');
+
+        $('#data').fadeOut(300, function() {
+            if (mostrandoNoRegistrados) {
+                NoRegistrados();
+            } else {
+                getAll();
+            }
+            $('#data').fadeIn(300);
+        });
     });
 
     $('#formu').on('submit', function(e) {

@@ -39,7 +39,7 @@ require_once 'menuNavegacion.view.php';
         <input type="text" id="buscar" placeholder="Buscar usuarios...">
     </div>
 
-    <button id="NoRegistrados" class="NoRegistrados">Usuarios registrados</button>
+    <button id="NoRegistrados" class="NoRegistrados">Usuarios no registrados</button>
 
     <!-- Contenedor para cargar dinámicamente las tarjetas de usuarios -->
     <div id="data" class="card-container">
