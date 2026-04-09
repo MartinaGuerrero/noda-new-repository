@@ -79,7 +79,7 @@ $(document).ready(function() {
         var email = $(this).data('email');
     
         $.ajax({
-            url: 'modelo/EliminarUsuario.php',
+            url: 'Controlador/Usuarios/EliminarUsuario.php',
             type: 'POST',
             data: { email: email },
             dataType: 'json',
@@ -163,7 +163,7 @@ $(document).ready(function() {
         e.preventDefault();
         var formData = $(this).serialize();
         $.ajax({
-            url: 'modelo/EditarUsuario.php',
+            url: 'Controlador/Usuarios/EditarUsuario.php',
             type: 'POST',
             data: formData,
             dataType: 'json',
@@ -316,7 +316,7 @@ $(document).ready(function() {
         let email = $('#Email').val();
         
         $.ajax({
-            url: 'modelo/AgregarUsuarios.php',
+            url: 'Controlador/Usuarios/AgregarUsuarios.php',
             type: 'POST',
             data: { email: email },
             dataType: 'json',
@@ -358,3 +358,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+

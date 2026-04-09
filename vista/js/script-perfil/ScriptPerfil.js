@@ -75,7 +75,7 @@ $('#btnGuardarPerfil').on('click', function(event) {
     }
 
     $.ajax({
-        url: 'modelo/EditarPerfil.php',
+        url: 'Controlador/Usuarios/EditarPerfil.php',
         type: 'POST',
         data: {
             nombre: nombre,
