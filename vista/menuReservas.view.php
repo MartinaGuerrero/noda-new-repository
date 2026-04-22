@@ -100,8 +100,8 @@ $cargo = $_SESSION['cargo'];
             <label for="insumo">Insumo</label>
             <input type="text" id="insumo" name="insumo" required>
 
-            <label for="observaciones">Observaciones</label>
-            <input type="text" id="observaciones" name="observacion" required>
+            <label for="observacion_editar">Observaciones</label>
+            <input type="text" id="observacion_editar" name="observacion_editar" required>
 
             <label for="serLimpieza" class="label" id="servLimpieza">Servicio de limpieza</label>
                 <label class="switch">

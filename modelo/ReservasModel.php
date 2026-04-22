@@ -13,7 +13,7 @@ class ReservasModel
     {
         $sql = "
         SELECT 
-            r.id_auto, r.fecha, r.hora_i, r.hora_f, r.observacion, r.insumo,
+            r.id_auto, r.fecha, r.hora_i, r.hora_f, r.observacion, r.insumo, r.fk_id_e,
             u.nombre AS usuario_nombre, u.apellido AS usuario_apellido, 
             e.nom_sala, e.capacidad, e.imagen
         FROM 
@@ -37,10 +37,14 @@ class ReservasModel
         while ($row = $result->fetch_assoc()) {
             $reservas[] = [
                 'id' => $row["id_auto"],
+                'sala_id' => $row["fk_id_e"] ?? null,
+                'sala_nombre' => $row["nom_sala"],
                 'nombre' => $row["usuario_nombre"] . " " . $row["usuario_apellido"],
                 'capacidad' => $row["nom_sala"] . " (Capacidad: " . $row["capacidad"] . ")",
                 'fecha' => $row["fecha"],
                 'hora' => $row["hora_i"] . " - " . $row["hora_f"],
+                'hora_inicio' => $row["hora_i"],
+                'hora_fin' => $row["hora_f"],
                 'observacion' => $row["observacion"],
                 'insumo' => $row["insumo"],
                 'imagen' => $row["imagen"]
@@ -85,7 +89,7 @@ class ReservasModel
         $insumos = $data['insumos'];
         $email = $data['email'];
         $salaId = $data['sala'];
-        $observacion = $data['observaciones'];
+        $observacion = $data['observacion'] ?? ($data['observaciones'] ?? null);
 
         if (!$this->verificarDisponibilidad($salaId, $fecha, $horaI, $horaF)) {
             return ["status" => "error", "message" => "Ya existe una reserva en ese horario"];
@@ -109,10 +113,10 @@ class ReservasModel
         $id = $data['id_reserva'];
         $fecha = $data['fecha'];
         $horaI = $data['hora_inicio'];
-        $horaF = $this->calcularHoraFin($data['hora_fin'], $data['limpieza']);
+        $horaF = $data['hora_fin'];
         $insumos = $data['insumo'];
         $salaId = $data['sala'];
-        $observacion = $data['observacion'];
+        $observacion = $data['observacion'] ?? ($data['observaciones'] ?? null);
 
         if (!$this->verificarDisponibilidad($salaId, $fecha, $horaI, $horaF, $id)) {
             return ["status" => "error", "message" => "Ya existe una reserva en ese horario"];
@@ -122,7 +126,7 @@ class ReservasModel
                 SET fecha = ?, hora_i = ?, hora_f = ?, observacion = ?, insumo = ?, fk_id_e = ?
                 WHERE id_auto = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssssiii", $fecha, $horaI, $horaF, $observacion, $insumos, $salaId, $id);
+        $stmt->bind_param("sssssii", $fecha, $horaI, $horaF, $observacion, $insumos, $salaId, $id);
 
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Reserva actualizada"];

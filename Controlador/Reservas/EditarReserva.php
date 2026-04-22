@@ -30,9 +30,20 @@ $data = [
     'hora_fin' => $_POST['hora_fin'] ?? null,
     'insumo' => $_POST['insumo'] ?? null,
     'sala' => $_POST['sala'] ?? null,
-    'observacion' => $_POST['observacion'] ?? ($_POST['observaciones'] ?? null),
+    'observacion' => $_POST['observacion_editar'] ?? ($_POST['observacion'] ?? ($_POST['observaciones'] ?? null)),
     'limpieza' => $_POST['limpieza'] ?? null,
 ];
+
+file_put_contents(
+    __DIR__ . '/../../tmp_editar_reserva.log',
+    json_encode(
+        [
+            'post' => $_POST,
+            'data' => $data
+        ],
+        JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+    )
+);
 
 $model = new ReservasModel($conn);
 $resultado = $model->editarReserva($data, $centro);

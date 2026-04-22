@@ -2,6 +2,8 @@ const reservasCentro = window.RESERVAS_CENTRO || 'secundaria';
 let reservasCargo = '';
 
 $(document).ready(function () {
+    let reservasPorId = {};
+
     function mostrarAlerta(mensaje) {
         const msg = `
         <div class="alert show">
@@ -30,9 +32,11 @@ $(document).ready(function () {
             url: 'Controlador/Reservas/ObtenerReservas.php',
             type: 'GET',
             data: { centro: reservasCentro },
+            cache: false,
             dataType: 'json',
             success: function (data) {
                 $('.Container').empty();
+                reservasPorId = {};
 
                 if (!Array.isArray(data) || data.length === 0) {
                     mostrarMensajeNoReservas();
@@ -51,6 +55,7 @@ $(document).ready(function () {
                 });
 
                 data.forEach(function (reserva) {
+                    reservasPorId[reserva.id] = reserva;
                     Reserva(
                         reserva.id,
                         reserva.nombre,
@@ -59,7 +64,10 @@ $(document).ready(function () {
                         reserva.hora,
                         reserva.imagen,
                         reserva.insumo,
-                        reserva.observacion
+                        reserva.observacion,
+                        reserva.sala_id,
+                        reserva.hora_inicio,
+                        reserva.hora_fin
                     );
                 });
             },
@@ -70,9 +78,13 @@ $(document).ready(function () {
         });
     }
 
-    function cargarSalasEnFormulario() {
+    function normalizarHora(hora) {
+        return hora ? hora.toString().substring(0, 5) : '';
+    }
+
+    function cargarSalasEnFormulario(salaSeleccionada) {
         $.ajax({
-            url: 'modelo/ObtenerSalas.php',
+            url: 'Controlador/Salas/ObtenerSalas.php',
             method: 'GET',
             data: { centro: reservasCentro },
             dataType: 'json',
@@ -86,6 +98,10 @@ $(document).ready(function () {
                         '<option value="' + sala.id + '">' + sala.nombre + ' (Capacidad: ' + sala.capacidad + ')</option>'
                     );
                 });
+
+                if (salaSeleccionada) {
+                    selectSala.val(String(salaSeleccionada));
+                }
 
                 $('#formularioEditarReserva').fadeIn();
             },
@@ -152,8 +168,21 @@ $(document).ready(function () {
 
     $(document).on('click', '.btnEditar', function () {
         let idReserva = $(this).data('id');
+        let reserva = reservasPorId[idReserva];
+
+        if (!reserva) {
+            alert('No se pudieron cargar los datos de la reserva.');
+            return;
+        }
+
         $('#id_reserva').val(idReserva);
-        cargarSalasEnFormulario();
+        $('#fecha').val(reserva.fecha || '');
+        $('#hora_inicio').val(normalizarHora(reserva.hora_inicio));
+        $('#hora_fin').val(normalizarHora(reserva.hora_fin));
+        $('#formEditarReserva').find('[name="insumo"]').val(reserva.insumo || '');
+        $('#formEditarReserva').find('[name="observacion_editar"]').val(reserva.observacion || '');
+        $('#toggleSwitch').prop('checked', false);
+        cargarSalasEnFormulario(reserva.sala_id);
     });
 
     $('#btnCerrarFormulario').on('click', function () {
@@ -163,15 +192,16 @@ $(document).ready(function () {
     $('#formEditarReserva').submit(function (e) {
         e.preventDefault();
 
+        let form = $(this);
         let formData = {
-            id_reserva: $('#id_reserva').val(),
-            sala: $('#sala').val(),
-            fecha: $('#fecha').val(),
-            hora_inicio: $('#hora_inicio').val(),
-            hora_fin: $('#hora_fin').val(),
-            observacion: $('#observaciones').val(),
-            insumo: $('#insumo').val(),
-            limpieza: $('#toggleSwitch').prop('checked'),
+            id_reserva: form.find('[name="id_reserva"]').val(),
+            sala: form.find('[name="sala"]').val(),
+            fecha: form.find('[name="fecha"]').val(),
+            hora_inicio: form.find('[name="hora_inicio"]').val(),
+            hora_fin: form.find('[name="hora_fin"]').val(),
+            insumo: form.find('[name="insumo"]').val(),
+            observacion_editar: form.find('[name="observacion_editar"]').val(),
+            limpieza: form.find('#toggleSwitch').prop('checked') ? 1 : 0,
             centro: reservasCentro
         };
 
@@ -183,8 +213,32 @@ $(document).ready(function () {
             success: function (response) {
                 mostrarAlerta(response.message);
                 if (response.status === 'success') {
+                    let idReserva = formData.id_reserva;
+                    let tarjeta = $(`.Reserva[data-id="${idReserva}"]`);
+                    let textoSala = form.find('[name="sala"] option:selected').text();
+                    let observacionTexto = formData.observacion_editar || 'No hay observaciones';
+                    let insumoTexto = formData.insumo || 'No hay insumos';
+                    let horaTexto = `${formData.hora_inicio} - ${formData.hora_fin}`;
+
+                    if (reservasPorId[idReserva]) {
+                        reservasPorId[idReserva].fecha = formData.fecha;
+                        reservasPorId[idReserva].hora_inicio = formData.hora_inicio;
+                        reservasPorId[idReserva].hora_fin = formData.hora_fin;
+                        reservasPorId[idReserva].hora = horaTexto;
+                        reservasPorId[idReserva].insumo = formData.insumo;
+                        reservasPorId[idReserva].observacion = formData.observacion_editar;
+                        reservasPorId[idReserva].sala_id = formData.sala;
+                        reservasPorId[idReserva].capacidad = textoSala || reservasPorId[idReserva].capacidad;
+                    }
+
+                    tarjeta.find('.reserva-sala span').text(textoSala);
+                    tarjeta.find('.reserva-fecha span').text(formData.fecha);
+                    tarjeta.find('.reserva-hora span').text(horaTexto);
+                    tarjeta.find('.reserva-insumo span').text(insumoTexto);
+                    tarjeta.find('.reserva-observacion span').text(observacionTexto);
+
                     $('#formularioEditarReserva').fadeOut();
-                    cargarReservas();
+                    form[0].reset();
                 }
             },
             error: function (xhr, status, error) {
@@ -195,7 +249,7 @@ $(document).ready(function () {
     });
 });
 
-function Reserva(id, nombre, capacidad, fecha, hora, imagen, insumo, observacion) {
+function Reserva(id, nombre, capacidad, fecha, hora, imagen, insumo, observacion, salaId, horaInicio, horaFin) {
     insumo = insumo || 'No hay insumos';
     observacion = observacion || 'No hay observaciones';
 
@@ -215,11 +269,11 @@ function Reserva(id, nombre, capacidad, fecha, hora, imagen, insumo, observacion
             <img src="${imagen}" alt="Imagen de la Reserva" class="SalaImg">
             <div class="ReservaInfo">
                 <p class="texto">Reservada por: <span>${nombre}</span></p>
-                <p class="texto">Espacio: <span>${capacidad}</span></p>
-                <p class="texto">Fecha: <span>${fecha}</span></p>
-                <p class="texto">Hora: <span>${hora}</span></p>
-                <p class="texto">Insumo: <span>${insumo}</span></p>
-                <p class="texto">Observaciones: <span>${observacion}</span></p>
+                <p class="texto reserva-sala">Espacio: <span>${capacidad}</span></p>
+                <p class="texto reserva-fecha">Fecha: <span>${fecha}</span></p>
+                <p class="texto reserva-hora">Hora: <span>${hora}</span></p>
+                <p class="texto reserva-insumo">Insumo: <span>${insumo}</span></p>
+                <p class="texto reserva-observacion">Observaciones: <span>${observacion}</span></p>
             </div>
             <div class="Tapar"></div>
             ${accionesHTML}
