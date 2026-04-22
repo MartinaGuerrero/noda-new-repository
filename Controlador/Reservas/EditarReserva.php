@@ -34,17 +34,6 @@ $data = [
     'limpieza' => $_POST['limpieza'] ?? null,
 ];
 
-file_put_contents(
-    __DIR__ . '/../../tmp_editar_reserva.log',
-    json_encode(
-        [
-            'post' => $_POST,
-            'data' => $data
-        ],
-        JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
-    )
-);
-
 $model = new ReservasModel($conn);
 $resultado = $model->editarReserva($data, $centro);
 
