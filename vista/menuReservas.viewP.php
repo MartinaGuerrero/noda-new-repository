@@ -123,7 +123,7 @@ $cargo = $_SESSION['cargo'];
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="vista/js/script-reservas/buscador.js"></script>
     <script src="vista/js/script-reservas/scriptResevas.js"></script>
-    <script src="vista/js/script-reservas/excelP.js"></script>
+    <script src="vista/js/script-reservas/excelP.js?v=2"></script>
     
 
 </body>
