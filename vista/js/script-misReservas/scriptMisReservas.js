@@ -1,4 +1,5 @@
 const misReservasCentro = window.RESERVAS_CENTRO || 'secundaria';
+let misReservasPorId = {};
 
 document.addEventListener('DOMContentLoaded', function () {
     fetchReservas();
@@ -63,6 +64,7 @@ $(document).ready(function () {
 
     $(document).on('click', '.btnEditar', function () {
         let idReserva = $(this).data('id');
+        let reserva = misReservasPorId[idReserva];
         $('#id_reserva').val(idReserva);
 
         $.ajax({
@@ -81,6 +83,16 @@ $(document).ready(function () {
                     );
                 });
 
+                if (reserva) {
+                    $('#fecha').val(reserva.fecha || '');
+                    $('#hora_inicio').val((reserva.hora_i || '').toString().substring(0, 5));
+                    $('#hora_fin').val((reserva.hora_f || '').toString().substring(0, 5));
+                    $('#insumo').val(reserva.insumos || '');
+                    $('#observaciones').val(reserva.observacion || '');
+                    $('#toggleSwitch').prop('checked', Number(reserva.limpieza) === 1);
+                    selectSala.val(String(reserva.sala_id));
+                }
+
                 $('#formularioEditarMisReserva').fadeIn();
             },
             error: function () {
@@ -96,12 +108,20 @@ $(document).ready(function () {
     $('#formEditarMisReserva').submit(function (e) {
         e.preventDefault();
 
+        let horaInicio = $('#hora_inicio').val();
+        let horaFin = $('#hora_fin').val();
+
+        if (!horaInicio || !horaFin || horaFin <= horaInicio) {
+            mostrarAlerta('La hora de fin debe ser posterior a la hora de inicio');
+            return;
+        }
+
         let formData = {
             id_reserva: $('#id_reserva').val(),
             sala: $('#sala').val(),
             fecha: $('#fecha').val(),
-            hora_inicio: $('#hora_inicio').val(),
-            hora_fin: $('#hora_fin').val(),
+            hora_inicio: horaInicio,
+            hora_fin: horaFin,
             observacion: $('#observaciones').val(),
             insumo: $('#insumo').val(),
             limpieza: $('#toggleSwitch').prop('checked'),
@@ -143,7 +163,9 @@ function fetchReservas() {
                     reservasContainer.innerHTML = `<p>Error al cargar las reservas: ${data.error}</p>`;
                 } else if (data.length > 0) {
                     reservasContainer.innerHTML = '';
+                    misReservasPorId = {};
                     data.forEach(function (reserva) {
+                        misReservasPorId[reserva.id] = reserva;
                         var reservaDiv = document.createElement('div');
                         reservaDiv.classList.add('reserva');
 
@@ -155,6 +177,7 @@ function fetchReservas() {
                                 <p class="texto">Hora de inicio: ${reserva.hora_i}</p>
                                 <p class="texto">Hora de finalizacion: ${reserva.hora_f}</p>
                                 <p class="texto">Insumos: ${reserva.insumos || 'No se solicitaron insumos'}</p>
+                                <p class="texto">Limpieza: ${Number(reserva.limpieza) === 1 ? 'Sí' : 'No'}</p>
                                 <p class="texto">Observaciones: ${reserva.observacion || 'Sin observaciones'}</p>
                             </div>
                             <div class="Tapar"></div>

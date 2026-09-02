@@ -285,6 +285,32 @@ function calendario(id) {
             let email = usuario;
             let sala = salaId;
 
+            if (!horaI || !horaF || horaF <= horaI) {
+                const msg = `
+                    <div class="alert show">
+                        <span class="fa-solid fa-check"></span>
+                        <span class="msg">La hora de fin debe ser posterior a la hora de inicio</span>
+                        <span class="close-btn">
+                            <span class="fas fa-times"></span>
+                        </span>
+                    </div>
+                `;
+
+                $('body').append(msg);
+                $('.alert').removeClass("hide");
+                $('.alert').addClass("show");
+                $('.alert').addClass("showAlert");
+                setTimeout(function () {
+                    $('.alert').removeClass("show");
+                    $('.alert').addClass("hide");
+                }, 5000);
+                $('.close-btn').click(function () {
+                    $('.alert').removeClass("show");
+                    $('.alert').addClass("hide");
+                });
+                return;
+            }
+
             // Realiza la solicitud AJAX para agregar la reserva
             $.ajax({
                 url: 'Controlador/Reservas/AgregarReservaDiaSemana.php',
@@ -328,8 +354,8 @@ function calendario(id) {
 
                     // Limpiar los valores del formulario después de agendar
                     $('#fecha').val('');
-                    $('#horaI').val('');
-                    $('#horaF').val('');
+                    $('#horai').val('');
+                    $('#horaf').val('');
                     $('#insumos').val('');
                     $('#toggleSwitch').prop('checked', false);
 

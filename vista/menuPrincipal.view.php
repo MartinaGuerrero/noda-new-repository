@@ -27,7 +27,7 @@ $cargo = $_SESSION['cargo'];
 
     <div id="blanco1">
         <!-- Sección para el menú de primaria -->
-        <div id="primaria" onclick="location.href='menuEnDesarrollo¿.php'">
+        <div id="primaria">
             <img src="vista/img/primaria.png" alt="">
             <h1>Primaria</h1>
         </div>

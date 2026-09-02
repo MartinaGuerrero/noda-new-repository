@@ -341,6 +341,11 @@ $(document).ready(function () {
                 let observaciones = $('#observaciones').val();
                 let limpieza = $('#toggleSwitch').prop('checked');
 
+                if (!horaI || !horaF || horaF <= horaI) {
+                    mostrarAlerta('La hora de fin debe ser posterior a la hora de inicio');
+                    return;
+                }
+
                 $.ajax({
                     url: 'Controlador/Reservas/AgregarReserva.php',
                     type: 'POST',
@@ -368,6 +373,9 @@ $(document).ready(function () {
                             $('#toggleSwitch').prop('checked', false);
                             $('.todo').hide();
                         }
+                    },
+                    error: function () {
+                        mostrarAlerta('Hubo un problema al procesar la reserva');
                     }
                 });
             });
@@ -422,7 +430,7 @@ $(document).ready(function () {
             $('.container').append(`
                 <div class="alertInfo" id="alertInfoLimpieza">
                     <p>Seleccione si desea o no servicio de limpieza luego de su reserva.</p>
-                    <p>Ten en cuenta la suciedad del espacio luego de su uso.</p>
+                    <p>Se reservarán 30 minutos adicionales para limpieza después del uso.</p>
                 </div>
             `);
         });
@@ -471,7 +479,7 @@ $(document).ready(function () {
             $('.container').append(`
                 <div class="alertInfo" id="alertInfoLimpieza">
                     <p>Seleccione si desea o no servicio de limpieza luego de su reserva.</p>
-                    <p>Ten en cuenta la suciedad del espacio luego de su uso.</p>
+                    <p>Se reservarán 30 minutos adicionales para limpieza después del uso.</p>
                 </div>
             `);
         });

@@ -28,9 +28,15 @@ require_once 'menuNavegacion.view.php';
         <img src="vista/img/add 2.png" alt="mas" id="imagenMas">
     </button>
 
-     <!-- Formulario para agregar un nuevo usuario -->
+    <!-- Formulario para agregar un nuevo usuario -->
     <form method="post" id="formu">
-        <input type="email" name="email" id="Email">
+        <div class="agregar-container">
+            <input type="email" name="email" id="Email" placeholder="Email">
+            <div class="centros-checkboxes">
+                <label><input type="checkbox" id="primariaAdd" name="primaria" value="1"> Primaria</label>
+                <label><input type="checkbox" id="secundariaAdd" name="secundaria" value="1"> Secundaria</label>
+            </div>
+        </div>
     </form>
 
     <!-- Contenedor del buscador -->
@@ -80,6 +86,10 @@ require_once 'menuNavegacion.view.php';
             <select id="cargo" name="cargo" required>
                 <!-- Las opciones se cargarán dinámicamente con JavaScript -->
             </select>
+            <div class="centros-checkboxes">
+                <label><input type="checkbox" id="primariaEdit" name="primaria" value="1"> Primaria</label>
+                <label><input type="checkbox" id="secundariaEdit" name="secundaria" value="1"> Secundaria</label>
+            </div>
             
             <button type="submit" id="btnEditarUsuario">Guardar cambios</button>
             <button type="button" id="btnCerrarFormulario">Cerrar</button>

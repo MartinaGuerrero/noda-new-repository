@@ -26,6 +26,8 @@ class UsuariosModel
         $apellido = $data['apellido'] ?? '';
         $email = $data['email'] ?? '';
         $cargo = $data['cargo'] ?? '';
+        $primaria = isset($data['primaria']) ? (int)$data['primaria'] : 0;
+        $secundaria = isset($data['secundaria']) ? (int)$data['secundaria'] : 0;
 
         if (!$email) {
             return ["status" => "error", "message" => "El email es obligatorio"];
@@ -36,9 +38,9 @@ class UsuariosModel
         }
 
         if (!$nombre && !$apellido && !$cargo) {
-            $sql = "INSERT INTO usuario (email) VALUES (?)";
+            $sql = "INSERT INTO usuario (email, primaria, secundaria) VALUES (?, ?, ?)";
             $stmt = $this->conn->prepare($sql);
-            $stmt->bind_param("s", $email);
+            $stmt->bind_param("sii", $email, $primaria, $secundaria);
 
             if ($stmt->execute()) {
                 return ["status" => "success", "message" => "Usuario agregado correctamente"];
@@ -53,9 +55,9 @@ class UsuariosModel
 
         $passwordHash = $this->defaultHash;
 
-        $sql = "INSERT INTO usuario (email, nombre, apellido, password, cargo) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO usuario (email, nombre, apellido, password, cargo, primaria, secundaria) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sssss", $email, $nombre, $apellido, $passwordHash, $cargo);
+        $stmt->bind_param("sssssii", $email, $nombre, $apellido, $passwordHash, $cargo, $primaria, $secundaria);
 
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Usuario creado"];
@@ -64,15 +66,21 @@ class UsuariosModel
         return ["status" => "error", "message" => "Error al crear usuario"];
     }
 
-    public function obtenerUsuariosConCargos($busqueda = null)
+    public function obtenerUsuariosConCargos($busqueda = null, $centro = null)
     {
+        $busqueda = $busqueda ? $this->conn->real_escape_string($busqueda) : null;
+        $centro = in_array($centro, ['primaria', 'secundaria']) ? $centro : null;
+
+        $where = [];
         if ($busqueda) {
-            $busqueda = $this->conn->real_escape_string($busqueda);
-            $query = "SELECT * FROM usuario 
-                      WHERE nombre LIKE '%$busqueda%' 
-                         OR apellido LIKE '%$busqueda%' 
-                         OR email LIKE '%$busqueda%' 
-                         OR cargo LIKE '%$busqueda%'";
+            $where[] = "(nombre LIKE '%$busqueda%' OR apellido LIKE '%$busqueda%' OR email LIKE '%$busqueda%' OR cargo LIKE '%$busqueda%')";
+        }
+        if ($centro) {
+            $where[] = "$centro = 1";
+        }
+
+        if (count($where) > 0) {
+            $query = "SELECT * FROM usuario WHERE " . implode(' AND ', $where);
         } else {
             $query = "SELECT * FROM usuario";
         }
@@ -92,6 +100,8 @@ class UsuariosModel
                     'nombre' => $row['nombre'],
                     'apellido' => $row['apellido'],
                     'cargo' => $row['cargo'],
+                    'primaria' => isset($row['primaria']) ? (int)$row['primaria'] : 0,
+                    'secundaria' => isset($row['secundaria']) ? (int)$row['secundaria'] : 0,
                     'iniciales' => $iniciales
                 ];
 
@@ -109,6 +119,8 @@ class UsuariosModel
         $nombre = $data['nombre'] ?? '';
         $apellido = $data['apellido'] ?? '';
         $cargo = $data['cargo'] ?? '';
+        $primaria = isset($data['primaria']) ? (int)$data['primaria'] : 0;
+        $secundaria = isset($data['secundaria']) ? (int)$data['secundaria'] : 0;
         $email = $data['email'] ?? '';
         $emailOriginal = $data['emailOriginal'] ?? '';
 
@@ -122,10 +134,10 @@ class UsuariosModel
 
         $passwordHash = $this->defaultHash;
 
-        $sql = "UPDATE usuario SET nombre = ?, apellido = ?, cargo = ?, email = ?, password = ?
-                WHERE email = ?";
+        $sql = "UPDATE usuario SET nombre = ?, apellido = ?, cargo = ?, email = ?, password = ?, primaria = ?, secundaria = ?
+            WHERE email = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssssss", $nombre, $apellido, $cargo, $email, $passwordHash, $emailOriginal);
+        $stmt->bind_param("sssssiis", $nombre, $apellido, $cargo, $email, $passwordHash, $primaria, $secundaria, $emailOriginal);
 
         if ($stmt->execute()) {
             return ['status' => 'success', 'message' => 'Usuario actualizado correctamente'];

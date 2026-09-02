@@ -12,7 +12,7 @@ $(document).ready(function() {
                     response.usuarios.forEach(res => {
                         if (res.nombre && res.apellido && res.cargo && res.email) {
                             ret += `
-                                <div class="card">
+                                <div class="card" data-primaria="${res.primaria}" data-secundaria="${res.secundaria}">
                                     <div id="img">
                                         <span class="iniciales">${res.iniciales}</span>
                                     </div>
@@ -145,10 +145,15 @@ $(document).ready(function() {
         var apellido = nombrePartes.slice(1).join(' ');
         var cargo = card.find('.texto').eq(1).text().trim();
         var email = card.find('.texto').eq(2).text().trim();
+        var primaria = card.data('primaria') ? 1 : 0;
+        var secundaria = card.data('secundaria') ? 1 : 0;
 
         $('#nombre').val(nombre);
         $('#apellido').val(apellido);
         $('#email').val(email);
+        // set center checkboxes
+        $('#primariaEdit').prop('checked', primaria === 1);
+        $('#secundariaEdit').prop('checked', secundaria === 1);
         $('#cargo').val(cargo);
         $('#emailOriginal').val(email); // Guardamos el email original para identificar al usuario
 
@@ -162,6 +167,9 @@ $(document).ready(function() {
     $('#formEditarUsuario').on('submit', function(e) {
         e.preventDefault();
         var formData = $(this).serialize();
+        // Ensure checkboxes are sent even when unchecked
+        formData += '&primaria=' + ($('#primariaEdit').is(':checked') ? 1 : 0);
+        formData += '&secundaria=' + ($('#secundariaEdit').is(':checked') ? 1 : 0);
         $.ajax({
             url: 'Controlador/Usuarios/EditarUsuario.php',
             type: 'POST',
@@ -204,7 +212,7 @@ $(document).ready(function() {
                             ? res.cargo
                             : 'Sin cargo';
                         ret += `
-                            <div class="card">
+                            <div class="card" data-primaria="${res.primaria}" data-secundaria="${res.secundaria}">
                                 <div id="img">
                                     <span class="iniciales">${res.iniciales}</span>
                                 </div>
@@ -258,7 +266,7 @@ $(document).ready(function() {
                     if (usuarios && usuarios.length > 0) {
                         usuarios.forEach(res => {
                             ret += `
-                                <div class="card">
+                                <div class="card" data-primaria="${res.primaria}" data-secundaria="${res.secundaria}">
                                     <div id="img">
                                         <span class="iniciales">${res.iniciales}</span>
                                     </div>
@@ -314,11 +322,13 @@ $(document).ready(function() {
     $('#formu').on('submit', function(e) {
         e.preventDefault();
         let email = $('#Email').val();
-        
+        let primaria = $('#primariaAdd').is(':checked') ? 1 : 0;
+        let secundaria = $('#secundariaAdd').is(':checked') ? 1 : 0;
+
         $.ajax({
             url: 'Controlador/Usuarios/AgregarUsuarios.php',
             type: 'POST',
-            data: { email: email },
+            data: { email: email, primaria: primaria, secundaria: secundaria },
             dataType: 'json',
             success: function(response) {
                 if (response.status === 'success') {
@@ -339,23 +349,54 @@ $(document).ready(function() {
 
 // Manejo del formulario de agregar usuario
 document.addEventListener('DOMContentLoaded', function() {
-    let botonAgregar = document.getElementById('agregar');
-    let formu = document.getElementById('formu');
+    const botonAgregar = document.getElementById('agregar');
+    const formu = document.getElementById('formu');
+
+    if (!botonAgregar || !formu) return;
 
     formu.classList.remove('visible');
 
-    botonAgregar.addEventListener('click', function() {
+    function showFormNearButton() {
+        const rect = botonAgregar.getBoundingClientRect();
+        // Position the form below the button, keeping it inside viewport
+        const topPos = rect.bottom + window.scrollY + 8; // 8px gap
+        let leftPos = rect.left + window.scrollX;
+        // If it would overflow right edge, shift left
+        const maxLeft = window.scrollX + document.documentElement.clientWidth - formu.offsetWidth - 16;
+        if (leftPos > maxLeft) leftPos = Math.max(16 + window.scrollX, maxLeft);
+
+        formu.style.top = topPos + 'px';
+        formu.style.left = leftPos + 'px';
+
+        formu.style.display = 'block';
+        // Allow CSS transition to run
+        setTimeout(() => formu.classList.add('visible'), 10);
+    }
+
+    function hideForm() {
+        formu.classList.remove('visible');
+        setTimeout(() => { formu.style.display = 'none'; }, 300);
+    }
+
+    botonAgregar.addEventListener('click', function(e) {
+        e.stopPropagation();
         if (formu.classList.contains('visible')) {
-            formu.classList.remove('visible');
-            setTimeout(() => {
-                formu.style.display = 'none'; 
-            }, 500); 
+            hideForm();
         } else {
-            formu.style.display = 'block'; 
-            setTimeout(() => {
-                formu.classList.add('visible'); 
-            }, 10); 
+            showFormNearButton();
         }
+    });
+
+    // Close when clicking outside the form
+    document.addEventListener('click', function(ev) {
+        if (!formu.contains(ev.target) && ev.target !== botonAgregar) {
+            if (formu.classList.contains('visible')) hideForm();
+        }
+    });
+
+    // Prevent clicks inside the form from closing it
+    formu.addEventListener('click', function(ev) {
+        ev.stopPropagation();
     });
 });
 

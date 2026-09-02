@@ -67,7 +67,8 @@ $(document).ready(function () {
                         reserva.observacion,
                         reserva.sala_id,
                         reserva.hora_inicio,
-                        reserva.hora_fin
+                        reserva.hora_fin,
+                        reserva.limpieza
                     );
                 });
             },
@@ -181,7 +182,7 @@ $(document).ready(function () {
         $('#hora_fin').val(normalizarHora(reserva.hora_fin));
         $('#formEditarReserva').find('[name="insumo"]').val(reserva.insumo || '');
         $('#formEditarReserva').find('[name="observacion_editar"]').val(reserva.observacion || '');
-        $('#toggleSwitch').prop('checked', false);
+        $('#toggleSwitch').prop('checked', Number(reserva.limpieza) === 1);
         cargarSalasEnFormulario(reserva.sala_id);
     });
 
@@ -193,12 +194,20 @@ $(document).ready(function () {
         e.preventDefault();
 
         let form = $(this);
+        let horaInicio = form.find('[name="hora_inicio"]').val();
+        let horaFin = form.find('[name="hora_fin"]').val();
+
+        if (!horaInicio || !horaFin || horaFin <= horaInicio) {
+            mostrarAlerta('La hora de fin debe ser posterior a la hora de inicio');
+            return;
+        }
+
         let formData = {
             id_reserva: form.find('[name="id_reserva"]').val(),
             sala: form.find('[name="sala"]').val(),
             fecha: form.find('[name="fecha"]').val(),
-            hora_inicio: form.find('[name="hora_inicio"]').val(),
-            hora_fin: form.find('[name="hora_fin"]').val(),
+            hora_inicio: horaInicio,
+            hora_fin: horaFin,
             insumo: form.find('[name="insumo"]').val(),
             observacion_editar: form.find('[name="observacion_editar"]').val(),
             limpieza: form.find('#toggleSwitch').prop('checked') ? 1 : 0,
@@ -228,6 +237,7 @@ $(document).ready(function () {
                         reservasPorId[idReserva].insumo = formData.insumo;
                         reservasPorId[idReserva].observacion = formData.observacion_editar;
                         reservasPorId[idReserva].sala_id = formData.sala;
+                        reservasPorId[idReserva].limpieza = formData.limpieza ? 1 : 0;
                         reservasPorId[idReserva].capacidad = textoSala || reservasPorId[idReserva].capacidad;
                     }
 
@@ -235,6 +245,7 @@ $(document).ready(function () {
                     tarjeta.find('.reserva-fecha span').text(formData.fecha);
                     tarjeta.find('.reserva-hora span').text(horaTexto);
                     tarjeta.find('.reserva-insumo span').text(insumoTexto);
+                    tarjeta.find('.reserva-limpieza span').text(formData.limpieza ? 'Sí' : 'No');
                     tarjeta.find('.reserva-observacion span').text(observacionTexto);
 
                     $('#formularioEditarReserva').fadeOut();
@@ -249,7 +260,7 @@ $(document).ready(function () {
     });
 });
 
-function Reserva(id, nombre, capacidad, fecha, hora, imagen, insumo, observacion, salaId, horaInicio, horaFin) {
+function Reserva(id, nombre, capacidad, fecha, hora, imagen, insumo, observacion, salaId, horaInicio, horaFin, limpieza) {
     insumo = insumo || 'No hay insumos';
     observacion = observacion || 'No hay observaciones';
 
@@ -273,6 +284,7 @@ function Reserva(id, nombre, capacidad, fecha, hora, imagen, insumo, observacion
                 <p class="texto reserva-fecha">Fecha: <span>${fecha}</span></p>
                 <p class="texto reserva-hora">Hora: <span>${hora}</span></p>
                 <p class="texto reserva-insumo">Insumo: <span>${insumo}</span></p>
+                <p class="texto reserva-limpieza">Limpieza: <span>${limpieza ? 'Sí' : 'No'}</span></p>
                 <p class="texto reserva-observacion">Observaciones: <span>${observacion}</span></p>
             </div>
             <div class="Tapar"></div>

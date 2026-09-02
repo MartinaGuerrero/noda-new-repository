@@ -10,6 +10,7 @@ if (!isset($_SESSION['usuario'])) {
 $nombre = isset($_SESSION['nombre']) ? ucwords(strtolower($_SESSION['nombre'])) : 'Nombre desconocido';
 $apellido = isset($_SESSION['apellido']) ? ucwords(strtolower($_SESSION['apellido'])) : 'Apellido desconocido';
 $email = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : 'Correo desconocido';
+$imagenPerfil = isset($_SESSION['imagen']) ? $_SESSION['imagen'] : (isset($_SESSION['foto']) ? $_SESSION['foto'] : null);
 
 // Obtiene las iniciales del nombre y apellido del usuario
 $iniciales = strtoupper($nombre[0]) . strtoupper($apellido[0]);
@@ -31,9 +32,13 @@ $iniciales = strtoupper($nombre[0]) . strtoupper($apellido[0]);
         <!-- Logo que redirige al menú principal al hacer clic -->
         <img src="vista/img/logo a color 3.png" alt="Logo" class="logo" onclick="location.href='menuprincipal.php'">
         <div class="user-icon">
-            <!-- Iniciales en el icono de usuario -->
+            <!-- Iniciales o foto en el icono de usuario -->
             <div class="icon-iniciales">
-                <?php echo $iniciales; ?>
+                <?php if ($imagenPerfil): ?>
+                    <img src="<?php echo htmlspecialchars($imagenPerfil, ENT_QUOTES, 'UTF-8'); ?>" alt="Foto de perfil" class="icon-profile-img">
+                <?php else: ?>
+                    <?php echo $iniciales; ?>
+                <?php endif; ?>
             </div>
             <div class="Perfil">
                 <!-- Icono de cerrar en el menú desplegable -->
@@ -41,7 +46,11 @@ $iniciales = strtoupper($nombre[0]) . strtoupper($apellido[0]);
                 <div class="perfil">
                     <!-- Círculo con iniciales dentro del menú -->
                     <div class="inicialesheader">
-                        <?php echo $iniciales; ?>
+                        <?php if ($imagenPerfil): ?>
+                            <img src="<?php echo htmlspecialchars($imagenPerfil, ENT_QUOTES, 'UTF-8'); ?>" alt="Foto de perfil" class="icon-profile-img">
+                        <?php else: ?>
+                            <?php echo $iniciales; ?>
+                        <?php endif; ?>
                     </div>
                     <!-- Muestra el nombre completo del usuario -->
                     <p class="username"><?php echo htmlspecialchars($nombre . ' ' . $apellido, ENT_QUOTES, 'UTF-8'); ?></p>

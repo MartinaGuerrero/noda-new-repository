@@ -39,21 +39,25 @@ overflow: hidden;
 
 #formu{/*form para ingresar correo*/
     position: absolute;
-    top: 140px;
+    top: 115px;
+    left: 320px; /* moved further right to avoid overlap with #agregar */
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
 }
 
 #Email{
     height: 35px;
-    width: 200px;
+    width: 320px;
     background-color:#002C6F;
     color: white;
-    position: absolute;
-    left: 160px;
-    bottom: -4px;
     font-family: 'Lexend', sans-serif;
     border: none;
     outline: none;
     border-radius: 5px;
+    padding: 6px 10px;
 }
 
 #agregar{ /*botón de agregar*/
@@ -66,6 +70,7 @@ overflow: hidden;
     position: absolute;
     left: 90px;
     top: 100px;
+    z-index: 2;
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -220,7 +225,7 @@ overflow: hidden;
 .card-container,
 .card-container2 {
     position: absolute;
-    top: 165px;
+    top: 220px; /* bajar para dejar espacio al formulario */
     left: 265px;
     display: flex;
     flex-wrap: wrap;
@@ -563,6 +568,81 @@ overflow: hidden;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+/* Estilos para los checkboxes de centros (primaria / secundaria) */
+.centros-checkboxes{
+    display: flex;
+    gap: 12px;
+    justify-content: flex-start;
+    margin-top: 8px;
+    align-items: center;
+}
+.centros-checkboxes label{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.04);
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: whitesmoke;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: background 160ms ease, transform 160ms ease;
+}
+.centros-checkboxes label:hover{ transform: translateY(-2px); background: rgba(255,255,255,0.06); }
+.centros-checkboxes input[type="checkbox"]{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    border-radius: 4px;
+    border: 2px solid rgba(255,255,255,0.7);
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+}
+.centros-checkboxes input[type="checkbox"]:checked{
+    background: linear-gradient(135deg,#3091FF,#007BFF);
+    border-color: transparent;
+}
+.centros-checkboxes input[type="checkbox"]:checked::after{
+    content: '\2713';
+    color: #fff;
+    font-size: 12px;
+    position: absolute;
+    left: 4px;
+    top: -1px;
+}
+
+/* Ajustes móviles para los checkboxes en formularios pequeños */
+@media (max-width: 420px) {
+    .centros-checkboxes{
+        flex-direction: column;
+        gap: 6px;
+        align-items: stretch;
+    }
+    .centros-checkboxes label{
+        justify-content: center;
+    }
+}
+
+/* Contenedor para el formulario rápido de agregar usuario */
+.agregar-container{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(0,0,0,0.28);
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.28);
+    width: 420px;
+}
+
+/* Ajuste del placeholder color para el campo email */
+#Email::placeholder{
+    color: rgba(255,255,255,0.8);
 }
 
 @media (min-width: 375px) and (max-width: 667px) {

@@ -6,9 +6,10 @@ header('Content-Type: application/json');
 
 if (isset($_GET['res'])) {
     $busqueda = isset($_GET['busqueda']) && $_GET['busqueda'] !== '' ? $_GET['busqueda'] : null;
+    $centro = isset($_GET['centro']) && in_array($_GET['centro'], ['primaria','secundaria']) ? $_GET['centro'] : null;
 
     $model = new UsuariosModel($conn);
-    $response = $model->obtenerUsuariosConCargos($busqueda);
+    $response = $model->obtenerUsuariosConCargos($busqueda, $centro);
 
     echo json_encode($response);
 } else {
