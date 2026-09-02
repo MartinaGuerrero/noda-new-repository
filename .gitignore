@@ -1,0 +1,24 @@
+# PHP / local environment
+.env
+.env.local
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Logs
+*.log
+
+# Backups and local dumps
+backups/
+*.sql.local
+
+# Composer / vendor (if used later)
+/vendor/
+
+# Optional build artifacts
+.cache/
+node_modules/
