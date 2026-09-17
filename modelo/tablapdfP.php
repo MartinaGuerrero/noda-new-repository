@@ -66,7 +66,12 @@ $pdf->MultiCell(0, 10, "Este reporte detalla la frecuencia de uso de los diferen
 $pdf->Ln(5); // Espacio adicional
 
 // Conectar a la base de datos
-$conexion = new mysqli('localhost', 'root', '', 'novosis_NODA');
+$dbHost = getenv('DB_HOST') ?: 'localhost';
+$dbUser = getenv('DB_USER') ?: 'root';
+$dbPass = getenv('DB_PASS') ?: '';
+$dbName = getenv('DB_NAME') ?: 'novosis_noda';
+
+$conexion = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
 if ($conexion->connect_error) {
     die("Conexión fallida: " . $conexion->connect_error);
 }
