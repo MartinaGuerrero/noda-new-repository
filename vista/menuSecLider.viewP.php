@@ -38,7 +38,7 @@ require_once 'header.view.php';
         <div class="menu" id="menu1">
             <!-- Sección izquierda del menú -->
             <div class="left">
-                <div class="leftin" onclick="location.href='AgendaP.php'">
+                <div class="leftin" onclick="location.href='agendaP.php'">
                     <img src="vista/img/verSalas.png" alt="" class="imagenMenu">
                     <h1>Ver salas</h1>
                 </div>

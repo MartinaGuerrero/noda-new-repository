@@ -1,5 +1,5 @@
-const btnescuela = document.getElementById('escuela');
-const btnliceo = document.getElementById('liceo');
+    const btnescuela = document.getElementById('escuela');
+    const btnliceo = document.getElementById('liceo');
 
         function moverLiceo() {
             const liceo = document.getElementById('liceo');
@@ -16,7 +16,7 @@ const btnliceo = document.getElementById('liceo');
 
             // Redirigir a otra página después de mover
             setTimeout(() => {
-                location.href = 'menuDocP.php';
+                 location.href = 'menudocP.php';
             }, 500);
         }
 
@@ -34,7 +34,7 @@ const btnliceo = document.getElementById('liceo');
 
             // Redirigir a otra página después de mover
             setTimeout(() => {
-                location.href = 'menuDoc.php';
+                 location.href = 'menudoc.php';
             }, 500);
         }
 
@@ -58,7 +58,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDocP.php';
+                            location.href = 'menudocP.php';
                     }, 500);
                 });
 
@@ -76,7 +76,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDoc.php';
+                            location.href = 'menudoc.php';
                     }, 500);
                 });
             }else if(anchoVentana === 414 && altoVentana === 896){
@@ -94,7 +94,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDocP.php';
+                            location.href = 'menudocP.php';
                     }, 500);
                 });
 
@@ -112,7 +112,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDoc.php';
+                            location.href = 'menudoc.php';
                     }, 500);
                 });
             }else if(anchoVentana === 390 && altoVentana === 844){
@@ -130,7 +130,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDocP.php';
+                            location.href = 'menudocP.php';
                     }, 500);
                 });
 
@@ -148,7 +148,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDoc.php';
+                        location.href = 'menudoc.php';
                     }, 500);
                 });
 
@@ -167,7 +167,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDocP.php';
+                        location.href = 'menudocP.php';
                     }, 500);
                 });
 
@@ -185,7 +185,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDoc.php';
+                        location.href = 'menudoc.php';
                     }, 500);
                 });
 
@@ -204,7 +204,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDocP.php';
+                        location.href = 'menudocP.php';
                     }, 500);
                 });
 
@@ -222,7 +222,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDoc.php';
+                        location.href = 'menudoc.php';
                     }, 500);
                 });
 
@@ -242,7 +242,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDocP.php';
+                        location.href = 'menudocP.php';
                     }, 500);
                 });
 
@@ -260,7 +260,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDoc.php';
+                        location.href = 'menudoc.php';
                     }, 500);
                 });
 
@@ -279,7 +279,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDocP.php';
+                        location.href = 'menudocP.php';
                     }, 500);
                 });
 
@@ -297,7 +297,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDoc.php';
+                        location.href = 'menudoc.php';
                     }, 500);
                 });
             }else if(anchoVentana === 1024 && altoVentana === 1366){
@@ -315,7 +315,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDocP.php';
+                        location.href = 'menudocP.php';
                     }, 500);
                 });
 
@@ -333,7 +333,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDoc.php';
+                        location.href = 'menudoc.php';
                     }, 500);
                 });
 
@@ -352,7 +352,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDocP.php';
+                        location.href = 'menudocP.php';
                     }, 500);
                 });
 
@@ -370,7 +370,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDoc.php';
+                        location.href = 'menudoc.php';
                     }, 500);
                 });
             } else if(anchoVentana === 540 && altoVentana === 720){
@@ -388,7 +388,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDocP.php';
+                        location.href = 'menudocP.php';
                     }, 500);
                 });
 
@@ -406,7 +406,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDoc.php';
+                        location.href = 'menudoc.php';
                     }, 500);
                 });
             } else if(
@@ -428,7 +428,7 @@ const btnliceo = document.getElementById('liceo');
                     liceoTexto.style.marginRight = '30px';
             
                     setTimeout(() => {
-                        location.href = 'menuDocP.php';
+                        location.href = 'menudocP.php';
                     }, 500);
                 });
             
@@ -445,7 +445,7 @@ const btnliceo = document.getElementById('liceo');
                     liceoTexto.style.marginRight = '15px';
             
                     setTimeout(() => {
-                        location.href = 'menuDocP.php';
+                        location.href = 'menudocP.php';
                     }, 500);
                 });
             } else if(anchoVentana === 412 && altoVentana === 914){
@@ -463,7 +463,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDocP.php';
+                        location.href = 'menudocP.php';
                     }, 500);
                 });
 
@@ -481,7 +481,7 @@ const btnliceo = document.getElementById('liceo');
 
                     // Redirigir a otra página después de mover
                     setTimeout(() => {
-                        location.href = 'menuDoc.php';
+                            location.href = 'menudoc.php';
                     }, 500);
                 });
             } else {
