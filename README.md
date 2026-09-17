@@ -29,18 +29,45 @@ DB_NAME=novosis_noda
 APP_ENV=development
 ```
 
-## Base de datos
+## Base de datos y migraciones
 
-1. Crear la base de datos en MySQL.
-2. Importar el esquema base si corresponde.
-3. Ejecutar la migración de usuarios por centros:
+El proyecto usa dos tipos de archivos SQL:
+
+- `Novosis_NODA.sql`: esquema y datos iniciales de la aplicación.
+- `migrations/`: cambios posteriores que se aplican sobre una base ya creada.
+
+Para instalar una base desde cero:
+
+1. Crear una base de datos llamada `novosis_noda`.
+2. Importar `Novosis_NODA.sql`.
+3. Ejecutar cada migración pendiente una sola vez y en orden.
+
+La migración `001_add_primaria_secundaria.sql` agrega las columnas `primaria` y `secundaria` a `usuario`. Estas columnas indican a qué centro pertenece cada funcionario y permiten filtrar usuarios por centro.
+
+Para ejecutarla manualmente:
 
 ```sql
-ALTER TABLE usuario ADD PRIMARYA TINYINT(1) NOT NULL DEFAULT 0;
-ALTER TABLE usuario ADD SECUNDARIA TINYINT(1) NOT NULL DEFAULT 0;
+ALTER TABLE usuario
+	ADD COLUMN primaria TINYINT(1) NOT NULL DEFAULT 0,
+	ADD COLUMN secundaria TINYINT(1) NOT NULL DEFAULT 0;
 ```
 
-o usar el archivo en `migrations/001_add_primaria_secundaria.sql`.
+También podés ejecutarla desde la consola de MySQL:
+
+```bash
+mysql -u root -p novosis_noda < migrations/001_add_primaria_secundaria.sql
+```
+
+Para verificar que se aplicó correctamente:
+
+```sql
+SHOW COLUMNS FROM usuario;
+SELECT email, primaria, secundaria FROM usuario LIMIT 20;
+```
+
+No ejecutes la misma migración dos veces sobre la misma base: fallará si las columnas ya existen.
+
+Para una base ya existente, no vuelvas a importar `Novosis_NODA.sql`; ejecutá solamente las migraciones pendientes.
 
 ## Ejecutar localmente
 
@@ -56,6 +83,14 @@ http://localhost/NODA/
 - `modelo/` : modelos y consultas
 - `vista/` : vistas, CSS y JS
 - `migrations/` : migraciones de base de datos
+
+## Convenciones de nombres
+
+El proyecto conserva algunos nombres históricos para mantener compatibles sus rutas actuales. En particular, los archivos con sufijo `P` corresponden a variantes de determinadas vistas o menús.
+
+Antes de renombrar un archivo PHP, hay que actualizar todas sus referencias en PHP, JavaScript y enlaces HTML. En sistemas Linux las mayúsculas y minúsculas sí importan, por lo que los nombres deben coincidir exactamente con las rutas utilizadas.
+
+La normalización completa de nombres se debe hacer en un cambio separado, verificando primero cada referencia y probando todos los menús.
 
 ## Nota
 
